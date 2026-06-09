@@ -1,0 +1,202 @@
+/* ============================================
+   Groups Page Styles
+   ============================================ */
+
+.groups-page {
+  padding-top: var(--space-3xl);
+  min-height: 100vh;
+}
+
+/* Use full width for groups page */
+.groups-page .container {
+  max-width: 1600px;
+  padding: 0 var(--space-lg);
+}
+
+/* ─── Page Header ─── */
+.groups-header {
+  text-align: center;
+  margin-bottom: var(--space-3xl);
+}
+
+.groups-header .section-title {
+  font-size: clamp(2rem, 4vw, 3rem);
+}
+
+.groups-header .section-subtitle {
+  margin-top: var(--space-sm);
+}
+
+/* ─── Groups Grid ─── */
+.groups-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-xl);
+}
+
+/* ─── Group Card Wrapper ─── */
+.groups-card {
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: all var(--transition-base);
+}
+
+.groups-card:hover {
+  transform: translateY(-2px);
+}
+
+/* ─── Group Toggle Header ─── */
+.groups-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-md) var(--space-lg);
+  background: var(--bg-glass);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  cursor: pointer;
+  transition: all var(--transition-base);
+}
+
+.groups-card-header:hover {
+  background: var(--bg-glass-hover);
+}
+
+.groups-card-title {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.groups-card-letter {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  letter-spacing: 2px;
+  background: var(--gradient-accent);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.groups-card-label {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.groups-card-toggle {
+  font-size: 1.2rem;
+  transition: transform var(--transition-base);
+  color: var(--text-tertiary);
+}
+
+.groups-card-toggle.expanded {
+  transform: rotate(180deg);
+}
+
+/* ─── Group Matches (Collapsible) ─── */
+.groups-matches {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  background: var(--bg-secondary);
+  border-left: 1px solid var(--border-glass);
+  border-right: 1px solid var(--border-glass);
+  border-bottom: 1px solid var(--border-glass);
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+}
+
+.groups-matches.open {
+  max-height: 1000px;
+}
+
+.groups-matches-inner {
+  padding: var(--space-md);
+}
+
+.groups-matches-title {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-tertiary);
+  margin-bottom: var(--space-sm);
+  font-weight: 600;
+}
+
+/* ─── Compact Match Row ─── */
+.groups-match-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-sm);
+  transition: background var(--transition-fast);
+  gap: var(--space-sm);
+}
+
+.groups-match-row:hover {
+  background: var(--bg-glass-hover);
+}
+
+.groups-match-row + .groups-match-row {
+  border-top: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.groups-match-teams {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-size: 0.85rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.groups-match-team {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.groups-match-vs {
+  color: var(--text-tertiary);
+  font-size: 0.7rem;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.groups-match-date {
+  font-size: 0.72rem;
+  color: var(--text-tertiary);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.groups-match-score {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  letter-spacing: 2px;
+  color: var(--accent-gold);
+  flex-shrink: 0;
+}
+
+/* ─── Matchday Divider ─── */
+.groups-matchday-divider {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--accent-green);
+  padding: var(--space-sm) var(--space-md);
+  font-weight: 600;
+  opacity: 0.7;
+  margin-top: var(--space-xs);
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 768px) {
+  .groups-grid {
+    grid-template-columns: 1fr;
+  }
+}

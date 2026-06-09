@@ -1,0 +1,264 @@
+/* ============================================
+   Schedule Page Styles
+   ============================================ */
+
+.schedule-page {
+  padding-top: var(--space-3xl);
+  min-height: 100vh;
+}
+
+/* ─── Page Header ─── */
+.schedule-header {
+  text-align: center;
+  margin-bottom: var(--space-3xl);
+}
+
+.schedule-header .section-title {
+  font-size: clamp(2rem, 4vw, 3rem);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+}
+
+.schedule-header .section-subtitle {
+  margin-top: var(--space-sm);
+}
+
+/* ─── Filters Bar ─── */
+.schedule-filters {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  margin-bottom: var(--space-2xl);
+}
+
+/* Stage Tabs */
+.schedule-stage-tabs {
+  display: flex;
+  gap: var(--space-xs);
+  flex-wrap: wrap;
+  padding: 4px;
+  background: var(--bg-glass);
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--border-glass);
+  width: fit-content;
+  margin: 0 auto;
+}
+
+.schedule-stage-tab {
+  padding: 0.5rem 1.25rem;
+  border-radius: var(--radius-full);
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  transition: all var(--transition-base);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.schedule-stage-tab:hover {
+  color: var(--text-primary);
+}
+
+.schedule-stage-tab.active {
+  background: var(--accent-green);
+  color: #000;
+  font-weight: 600;
+}
+
+/* Date Pills */
+.schedule-date-scroll {
+  display: flex;
+  gap: var(--space-sm);
+  overflow-x: auto;
+  padding: var(--space-sm) 0;
+  scrollbar-width: thin;
+  -ms-overflow-style: none;
+}
+
+.schedule-date-scroll::-webkit-scrollbar {
+  height: 4px;
+}
+
+.schedule-date-scroll::-webkit-scrollbar-thumb {
+  background: var(--bg-tertiary);
+  border-radius: var(--radius-full);
+}
+
+.schedule-date-pill {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.6rem 1rem;
+  border-radius: var(--radius-md);
+  background: var(--bg-glass);
+  border: 1px solid var(--border-glass);
+  cursor: pointer;
+  transition: all var(--transition-base);
+  min-width: 72px;
+  flex-shrink: 0;
+}
+
+.schedule-date-pill:hover {
+  border-color: var(--border-glass-hover);
+  background: var(--bg-glass-hover);
+}
+
+.schedule-date-pill.active {
+  border-color: var(--accent-green);
+  background: var(--accent-green-dim);
+}
+
+.schedule-date-pill-day {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  letter-spacing: 0.5px;
+}
+
+.schedule-date-pill-num {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  line-height: 1.2;
+}
+
+.schedule-date-pill.active .schedule-date-pill-day {
+  color: var(--accent-green);
+}
+
+.schedule-date-pill.active .schedule-date-pill-num {
+  color: var(--accent-green);
+}
+
+.schedule-date-pill-month {
+  font-size: 0.65rem;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+}
+
+/* Search */
+.schedule-search-wrap {
+  position: relative;
+  max-width: 400px;
+}
+
+.schedule-search-icon {
+  position: absolute;
+  left: 1.25rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-tertiary);
+  font-size: 1rem;
+  pointer-events: none;
+}
+
+.schedule-search {
+  padding-left: 3rem;
+}
+
+/* ─── Date Group ─── */
+.schedule-date-group {
+  margin-bottom: var(--space-2xl);
+}
+
+.schedule-date-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  margin-bottom: var(--space-lg);
+  padding-bottom: var(--space-sm);
+  border-bottom: 1px solid var(--border-glass);
+}
+
+.schedule-date-label {
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.schedule-date-count {
+  font-size: 0.8rem;
+  color: var(--text-tertiary);
+  font-weight: 500;
+}
+
+.schedule-date-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent-green);
+  flex-shrink: 0;
+}
+
+.schedule-matches-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-lg);
+}
+
+/* ─── Empty State ─── */
+.schedule-empty {
+  text-align: center;
+  padding: var(--space-4xl) var(--space-xl);
+}
+
+.schedule-empty-icon {
+  font-size: 4rem;
+  margin-bottom: var(--space-lg);
+  opacity: 0.4;
+}
+
+.schedule-empty h3 {
+  font-size: 1.3rem;
+  margin-bottom: var(--space-sm);
+  color: var(--text-primary);
+}
+
+.schedule-empty p {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+}
+
+/* ─── Match Count ─── */
+.schedule-results-count {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  margin-bottom: var(--space-lg);
+  padding: var(--space-sm) var(--space-md);
+  background: var(--bg-glass);
+  border-radius: var(--radius-full);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.schedule-results-count strong {
+  color: var(--accent-green);
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 1024px) {
+  .schedule-matches-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .schedule-stage-tabs {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .schedule-matches-list {
+    grid-template-columns: 1fr;
+  }
+  .schedule-stage-tabs {
+    border-radius: var(--radius-md);
+  }
+  .schedule-stage-tab {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.78rem;
+  }
+}
