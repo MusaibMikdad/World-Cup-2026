@@ -1,0 +1,219 @@
+/* ========================================
+   Footer — Dark Subtle Multi-Column
+   ======================================== */
+
+.footer {
+  position: relative;
+  background: var(--bg-secondary);
+  border-top: 1px solid var(--border-glass);
+  margin-top: var(--space-4xl);
+  overflow: hidden;
+}
+
+/* Ambient background glow */
+.footer::before {
+  content: '';
+  position: absolute;
+  top: -100px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 600px;
+  height: 300px;
+  background: radial-gradient(ellipse, rgba(0, 255, 135, 0.03) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.footer .divider-glow {
+  margin: 0;
+}
+
+.footer__inner {
+  padding-top: var(--space-3xl);
+  padding-bottom: var(--space-xl);
+}
+
+/* ─── Grid ─── */
+.footer__grid {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1fr;
+  gap: var(--space-2xl);
+  margin-bottom: var(--space-3xl);
+}
+
+/* ─── Brand Column ─── */
+.footer__brand {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.footer__logo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.footer__logo-icon {
+  font-size: 1.5rem;
+}
+
+.footer__logo-text {
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  letter-spacing: 3px;
+  background: var(--gradient-text);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.footer__tagline {
+  font-size: 0.85rem;
+  color: var(--text-tertiary);
+  line-height: 1.7;
+  max-width: 280px;
+}
+
+.footer__flags {
+  display: flex;
+  gap: var(--space-sm);
+}
+
+/* ─── Social Icons ─── */
+.footer__social {
+  display: flex;
+  gap: var(--space-sm);
+  margin-top: var(--space-sm);
+}
+
+.footer__social-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-md);
+  background: var(--bg-glass);
+  border: 1px solid var(--border-glass);
+  font-size: 1rem;
+  transition: all var(--transition-base);
+  text-decoration: none;
+}
+
+.footer__social-link:hover {
+  background: var(--bg-glass-hover);
+  border-color: var(--accent-green);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-glow-green);
+}
+
+/* ─── Columns ─── */
+.footer__column {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.footer__column-title {
+  font-family: var(--font-heading);
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.footer__links {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.footer__link {
+  font-size: 0.85rem;
+  color: var(--text-tertiary);
+  text-decoration: none;
+  transition: all var(--transition-fast);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.footer__link:hover {
+  color: var(--text-primary);
+  transform: translateX(4px);
+}
+
+.footer__link--accent {
+  color: var(--accent-green);
+  font-weight: 600;
+}
+
+.footer__link--accent:hover {
+  color: var(--accent-green);
+  text-shadow: 0 0 10px var(--accent-green-glow);
+}
+
+.footer__external {
+  font-size: 0.7rem;
+  opacity: 0.5;
+  transition: opacity var(--transition-fast);
+}
+
+.footer__link:hover .footer__external {
+  opacity: 1;
+}
+
+/* ─── Bottom Bar ─── */
+.footer__bottom {
+  padding-top: var(--space-xl);
+  border-top: 1px solid var(--border-glass);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  align-items: center;
+  text-align: center;
+}
+
+.footer__disclaimer {
+  background: var(--live-red-dim);
+  border: 1px solid rgba(255, 71, 87, 0.15);
+  border-radius: var(--radius-md);
+  padding: var(--space-sm) var(--space-lg);
+  max-width: 700px;
+}
+
+.footer__disclaimer p {
+  font-size: 0.75rem;
+  color: var(--text-tertiary);
+  line-height: 1.6;
+}
+
+.footer__disclaimer strong {
+  color: var(--live-red);
+}
+
+.footer__copyright p {
+  font-size: 0.75rem;
+  color: var(--text-tertiary);
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 1024px) {
+  .footer__grid {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-xl);
+  }
+}
+
+@media (max-width: 768px) {
+  .footer__grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-xl);
+  }
+
+  .footer__inner {
+    padding-top: var(--space-2xl);
+  }
+}

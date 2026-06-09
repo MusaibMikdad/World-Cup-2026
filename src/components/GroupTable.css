@@ -1,0 +1,219 @@
+/* ========================================
+   GroupTable — CSS Grid Standings
+   ======================================== */
+
+.group-table {
+  overflow: hidden;
+}
+
+.group-table__header {
+  display: flex;
+  align-items: center;
+  margin-bottom: var(--space-md);
+}
+
+/* ─── Grid Row ─── */
+/* 10 columns: # | Team | P | W | D | L | GF | GA | GD | Pts */
+.gt-row {
+  display: grid;
+  grid-template-columns: 36px 220px repeat(8, 34px);
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* ─── Header Row ─── */
+.gt-row--header {
+  border-bottom: 1px solid var(--border-glass);
+  padding-bottom: 6px;
+  margin-bottom: 4px;
+}
+
+.gt-row--header .gt-cell {
+  font-family: var(--font-heading);
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* ─── Data Row ─── */
+.gt-row--data {
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  transition: background var(--transition-base);
+  position: relative;
+}
+
+.gt-row--data:hover {
+  background: var(--bg-glass-hover);
+}
+
+.gt-row--data:last-of-type {
+  border-bottom: none;
+}
+
+/* Qualify / Potential left border */
+.gt-row--data::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 6px;
+  bottom: 6px;
+  width: 3px;
+  border-radius: var(--radius-full);
+}
+
+.gt-row--qualify::before {
+  background: var(--accent-green);
+  box-shadow: 0 0 8px var(--accent-green-glow);
+}
+
+.gt-row--potential::before {
+  background: var(--accent-blue);
+  box-shadow: 0 0 8px rgba(79, 140, 255, 0.4);
+}
+
+/* ─── Cell Base ─── */
+.gt-cell {
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 0.82rem;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* ─── # Column ─── */
+.gt-cell--pos {
+  text-align: center;
+}
+
+.gt-pos {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  font-size: 0.75rem;
+  font-weight: 600;
+  background: var(--bg-glass);
+  color: var(--text-tertiary);
+}
+
+.gt-row--qualify .gt-pos {
+  background: var(--accent-green-dim);
+  color: var(--accent-green);
+}
+
+.gt-row--potential .gt-pos {
+  background: var(--accent-blue-dim);
+  color: var(--accent-blue);
+}
+
+/* ─── Team Column ─── */
+.gt-cell--team {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-align: left;
+  overflow: hidden;
+  padding-left: 10px;
+  padding-right: 12px;
+}
+
+.gt-team-name {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 0.85rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.gt-team-code {
+  font-size: 0.62rem;
+  color: var(--text-tertiary);
+  letter-spacing: 0.5px;
+  flex-shrink: 0;
+}
+
+/* ─── Stat Columns ─── */
+.gt-cell--stat {
+  text-align: center;
+}
+
+/* ─── Pts Column ─── */
+.gt-cell--pts {
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 1rem;
+  color: var(--text-primary);
+}
+
+.gt-row--qualify .gt-cell--pts {
+  color: var(--accent-green);
+}
+
+.gt-row--header .gt-cell--pts {
+  color: var(--accent-green);
+}
+
+/* ─── Legend ─── */
+.group-table__legend {
+  display: flex;
+  gap: var(--space-lg);
+  margin-top: var(--space-md);
+  padding-top: var(--space-sm);
+  border-top: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.group-table__legend-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-size: 0.7rem;
+  color: var(--text-tertiary);
+}
+
+.group-table__legend-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.group-table__legend-dot--green {
+  background: var(--accent-green);
+  box-shadow: 0 0 6px var(--accent-green-glow);
+}
+
+.group-table__legend-dot--blue {
+  background: var(--accent-blue);
+  box-shadow: 0 0 6px rgba(79, 140, 255, 0.4);
+}
+
+/* ─── Hide on mobile ─── */
+.gt-hide-mobile {
+  display: block;
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 768px) {
+  .gt-row {
+    grid-template-columns: 32px 1fr repeat(6, 28px);
+    justify-content: space-between;
+  }
+
+  .gt-hide-mobile {
+    display: none !important;
+  }
+
+  .gt-team-name {
+    font-size: 0.78rem;
+  }
+
+  .gt-team-code {
+    display: none;
+  }
+}

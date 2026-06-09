@@ -1,0 +1,224 @@
+/* ========================================
+   KnockoutBracket — Horizontal Bracket
+   ======================================== */
+
+.ko-bracket {
+  width: 100%;
+  padding: var(--space-md) 0;
+}
+
+.ko-bracket__scroll {
+  overflow-x: auto;
+  padding-bottom: var(--space-lg);
+  scrollbar-width: thin;
+}
+
+.ko-bracket__rounds {
+  display: flex;
+  gap: var(--space-xl);
+  min-width: max-content;
+  align-items: flex-start;
+}
+
+/* ─── Round Column ─── */
+.ko-bracket__round {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  min-width: 200px;
+}
+
+.ko-bracket__round-title {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding-bottom: var(--space-sm);
+  border-bottom: 1px solid var(--border-glass);
+  margin-bottom: var(--space-xs);
+}
+
+.ko-bracket__round-label {
+  font-family: var(--font-heading);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.ko-bracket__round-count {
+  font-size: 0.7rem;
+  color: var(--text-tertiary);
+}
+
+.ko-bracket__matches {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+/* ─── Bracket Slot ─── */
+.ko-slot {
+  background: var(--gradient-card);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-md);
+  padding: 0;
+  overflow: hidden;
+  position: relative;
+  transition: all var(--transition-base);
+  min-width: 190px;
+}
+
+.ko-slot:hover {
+  border-color: var(--border-glass-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.ko-slot--live {
+  border-color: rgba(0, 255, 135, 0.3);
+  animation: glow-pulse 2s ease-in-out infinite;
+}
+
+.ko-slot--live::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--gradient-accent);
+}
+
+/* ─── Team Row ─── */
+.ko-slot__team {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  transition: background var(--transition-fast);
+}
+
+.ko-slot__team:hover {
+  background: var(--bg-glass);
+}
+
+.ko-slot__team--winner {
+  background: var(--accent-green-dim);
+}
+
+.ko-slot__team--winner .ko-slot__name {
+  color: var(--accent-green);
+  font-weight: 700;
+}
+
+.ko-slot__flag {
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+.ko-slot__name {
+  font-family: var(--font-heading);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  flex: 1;
+  letter-spacing: 0.5px;
+}
+
+.ko-slot__code {
+  font-size: 0.65rem;
+  font-weight: 500;
+  color: var(--text-tertiary);
+  letter-spacing: 1px;
+}
+
+.ko-slot__score {
+  font-family: var(--font-heading);
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  background: var(--bg-glass);
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+  min-width: 24px;
+  text-align: center;
+}
+
+.ko-slot__score--live {
+  color: var(--live-red);
+  animation: score-pop 2s ease-in-out infinite;
+}
+
+.ko-slot__divider {
+  height: 1px;
+  background: var(--border-glass);
+  margin: 0 var(--space-sm);
+}
+
+/* ─── Meta ─── */
+.ko-slot__meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-xs) var(--space-md);
+  background: rgba(0, 0, 0, 0.15);
+  border-top: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.ko-slot__date,
+.ko-slot__venue {
+  font-size: 0.65rem;
+  color: var(--text-tertiary);
+}
+
+/* ─── Live Badge ─── */
+.ko-slot__live-badge {
+  position: absolute;
+  top: -1px;
+  right: var(--space-sm);
+  font-size: 0.6rem;
+  padding: 2px 8px;
+  border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+}
+
+/* ─── Third Place ─── */
+.ko-bracket__third-place {
+  margin-top: var(--space-2xl);
+  padding-top: var(--space-lg);
+  border-top: 1px solid var(--border-glass);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  max-width: 220px;
+}
+
+/* ─── Connecting Lines (CSS-based bracket lines) ─── */
+.ko-bracket__round:not(:last-child) .ko-slot {
+  position: relative;
+}
+
+.ko-bracket__round:not(:last-child) .ko-slot::before {
+  content: '';
+  position: absolute;
+  right: -17px;
+  top: 50%;
+  width: 16px;
+  height: 1px;
+  background: var(--border-glass);
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 768px) {
+  .ko-bracket__rounds {
+    gap: var(--space-lg);
+  }
+
+  .ko-bracket__round {
+    min-width: 170px;
+  }
+
+  .ko-slot {
+    min-width: 160px;
+  }
+}

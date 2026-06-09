@@ -1,0 +1,384 @@
+/* ========================================
+   MatchCard — Premium Glass Match Card
+   ======================================== */
+
+.match-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  padding: var(--space-lg);
+  position: relative;
+  overflow: visible;
+  min-width: 320px;
+  max-width: 420px;
+  width: 100%;
+}
+
+/* Live match glow border */
+.match-card--live {
+  border-color: rgba(255, 71, 87, 0.3);
+  animation: border-glow-red 2s ease-in-out infinite;
+  box-shadow: var(--shadow-glow-red);
+}
+
+.match-card--live::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--gradient-live);
+  animation: shimmer 2s linear infinite;
+  background-size: 200% 100%;
+}
+
+@keyframes border-glow-red {
+  0%, 100% { border-color: rgba(255, 71, 87, 0.2); }
+  50% { border-color: rgba(255, 71, 87, 0.5); }
+}
+
+.match-card--finished {
+  opacity: 0.85;
+}
+
+.match-card--finished:hover {
+  opacity: 1;
+}
+
+/* ─── Header ─── */
+.match-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+}
+
+/* ─── Body — Teams + Score ─── */
+.match-card__body {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  padding: var(--space-sm) 0;
+}
+
+.match-card__team {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-xs);
+  flex: 1;
+  text-align: center;
+}
+
+.match-card__flag {
+  transition: transform var(--transition-spring);
+}
+
+.match-card:hover .match-card__flag {
+  transform: scale(1.1);
+}
+
+.match-card__team-name {
+  font-family: var(--font-heading);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.2;
+}
+
+.match-card__team-code {
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: var(--text-tertiary);
+  letter-spacing: 1px;
+}
+
+/* ─── Score ─── */
+.match-card__score-area {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 90px;
+}
+
+.match-card__score {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.match-card__score-num {
+  font-family: var(--font-heading);
+  font-size: 2.4rem;
+  font-weight: 900;
+  color: var(--text-primary);
+  line-height: 1;
+  min-width: 30px;
+  text-align: center;
+}
+
+.match-card__score--live .match-card__score-num {
+  color: var(--live-red);
+  animation: score-pop 2s ease-in-out infinite;
+}
+
+.match-card__score-sep {
+  font-family: var(--font-heading);
+  font-size: 1.4rem;
+  font-weight: 300;
+  color: var(--text-tertiary);
+}
+
+.match-card__vs {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  letter-spacing: 3px;
+  color: var(--text-tertiary);
+  background: var(--bg-glass);
+  padding: var(--space-xs) var(--space-md);
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border-glass);
+}
+
+/* ─── Footer ─── */
+.match-card__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  padding-top: var(--space-sm);
+  border-top: 1px solid var(--border-glass);
+}
+
+.match-card__venue {
+  font-size: 0.75rem;
+  color: var(--text-tertiary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 200px;
+}
+
+.match-card__date {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+/* ─── Actions ─── */
+.match-card__actions {
+  display: flex;
+  gap: var(--space-sm);
+}
+
+/* ─── Watch Button ─── */
+.match-card__watch {
+  width: 100%;
+  margin-top: var(--space-xs);
+  cursor: pointer;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+/* ========================================
+   Streaming Popup — Compact Inline Card
+   ======================================== */
+
+.match-card__streaming-popup {
+  position: absolute;
+  bottom: calc(100% + 12px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: 340px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-glass-hover);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  z-index: 1000;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 30px rgba(0, 255, 135, 0.08);
+  animation: matchcard-popup-in 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+/* Arrow pointing down */
+.match-card__streaming-popup::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
+  width: 16px;
+  height: 16px;
+  background: var(--bg-secondary);
+  border-right: 1px solid var(--border-glass-hover);
+  border-bottom: 1px solid var(--border-glass-hover);
+}
+
+@keyframes matchcard-popup-in {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(8px) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0) scale(1);
+  }
+}
+
+.match-card__streaming-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.match-card__streaming-title {
+  font-family: var(--font-heading);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.match-card__streaming-close {
+  background: var(--bg-glass);
+  border: 1px solid var(--border-glass);
+  color: var(--text-secondary);
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: all var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.match-card__streaming-close:hover {
+  color: var(--text-primary);
+  border-color: var(--live-red);
+  background: var(--live-red-dim);
+}
+
+/* ─── Streaming Section ─── */
+.match-card__streaming-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.match-card__streaming-region {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 0;
+  padding-bottom: var(--space-xs);
+  border-bottom: 1px solid var(--border-glass);
+}
+
+.match-card__streaming-links {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.match-card__streaming-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  padding: 8px 12px;
+  background: var(--bg-glass);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  transition: all var(--transition-fast);
+  cursor: pointer;
+}
+
+.match-card__streaming-link:hover {
+  background: var(--bg-glass-hover);
+  border-color: var(--border-glass-hover);
+  transform: translateX(4px);
+}
+
+.match-card__streaming-link--bd {
+  border-color: rgba(0, 255, 135, 0.15);
+  background: rgba(0, 255, 135, 0.04);
+}
+
+.match-card__streaming-link--bd:hover {
+  border-color: rgba(0, 255, 135, 0.35);
+  background: rgba(0, 255, 135, 0.08);
+  box-shadow: 0 0 12px rgba(0, 255, 135, 0.08);
+}
+
+.match-card__streaming-name {
+  font-family: var(--font-heading);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.match-card__streaming-badge {
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--accent-green);
+  background: rgba(0, 255, 135, 0.1);
+  border: 1px solid rgba(0, 255, 135, 0.25);
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+}
+
+/* ─── More link ─── */
+.match-card__streaming-more {
+  display: block;
+  text-align: center;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--accent-blue);
+  text-decoration: none;
+  padding: 8px;
+  border-radius: var(--radius-sm);
+  background: var(--bg-glass);
+  border: 1px solid var(--border-glass);
+  transition: all var(--transition-fast);
+}
+
+.match-card__streaming-more:hover {
+  background: var(--bg-glass-hover);
+  border-color: var(--accent-blue);
+  color: var(--text-primary);
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 480px) {
+  .match-card {
+    min-width: unset;
+    max-width: 100%;
+    padding: var(--space-md);
+  }
+
+  .match-card__score-num {
+    font-size: 1.8rem;
+  }
+
+  .match-card__team-name {
+    font-size: 0.8rem;
+  }
+
+  .match-card__streaming-popup {
+    width: calc(100vw - 48px);
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}

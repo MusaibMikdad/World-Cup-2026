@@ -1,0 +1,35 @@
+/* ========================================
+   Flag — Image-based Country Flags
+   ======================================== */
+
+.flag-img {
+  display: inline-block !important;
+  object-fit: cover;
+  border-radius: 3px;
+  vertical-align: middle;
+  flex-shrink: 0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.flag-img--sm {
+  width: 20px;
+  height: 15px;
+  border-radius: 2px;
+}
+
+.flag-img--md {
+  width: 28px;
+  height: 21px;
+}
+
+.flag-img--lg {
+  width: 40px;
+  height: 30px;
+  border-radius: 4px;
+}
+
+.flag-img--fallback {
+  font-size: 1.2rem;
+  line-height: 1;
+  box-shadow: none;
+}
