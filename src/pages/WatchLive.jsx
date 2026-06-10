@@ -1,13 +1,13 @@
-import { useState, useMemo } from 'react';
+import { useState } from 'react';
 import MatchCard from '../components/MatchCard';
 import StreamingLinks from '../components/StreamingLinks';
-import { getLiveMatches } from '../data/matches';
+import { useMatches } from '../hooks/useMatches';
 import { regions } from '../data/streaming';
 import './WatchLive.css';
 
 function WatchLive() {
   const [selectedRegion, setSelectedRegion] = useState('All');
-  const liveMatches = useMemo(() => getLiveMatches(), []);
+  const { liveMatches } = useMatches();
 
   return (
     <div className="watch-page">
