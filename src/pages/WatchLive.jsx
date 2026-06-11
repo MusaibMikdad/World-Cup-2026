@@ -39,14 +39,6 @@ function WatchLive() {
                 {liveMatches.map(match => (
                   <div key={match.id} className="watch-live-card glass-card">
                     <MatchCard match={match} />
-                    <div className="watch-live-actions">
-                      <button className="btn btn-live btn-sm">
-                        ▶ Watch Now
-                      </button>
-                      <button className="btn btn-secondary btn-sm">
-                        📊 Match Stats
-                      </button>
-                    </div>
                   </div>
                 ))}
               </div>
