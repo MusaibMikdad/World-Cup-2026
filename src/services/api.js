@@ -26,6 +26,27 @@ const checkRateLimit = () => {
 };
 
 const fetchApi = async (endpoint) => {
+  if (!API_KEY) {
+    console.log('[Mock API] Simulating response for', endpoint);
+    if (endpoint.includes('status=LIVE')) {
+      return {
+        matches: [
+          {
+            homeTeam: { tla: 'MEX' },
+            awayTeam: { tla: 'RSA' },
+            status: 'IN_PLAY',
+            minute: '45+4',
+            score: {
+              fullTime: { home: 1, away: 0 },
+              halfTime: { home: 1, away: 0 }
+            }
+          }
+        ]
+      };
+    }
+    return { matches: [] };
+  }
+
   try {
     checkRateLimit();
     const response = await fetch(`${API_BASE}${endpoint}`, { headers });
