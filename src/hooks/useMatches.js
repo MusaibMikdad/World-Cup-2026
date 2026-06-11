@@ -118,16 +118,17 @@ export function useMatches() {
 
   const todayMatches = useMemo(() => {
     const now = new Date();
-    const bdNow = new Date(
-      now.toLocaleString('en-US', { timeZone: 'Asia/Dhaka' })
-    );
-    const todayStr = bdNow.toISOString().split('T')[0];
+    const formatter = new Intl.DateTimeFormat('en-CA', {
+      timeZone: 'Asia/Dhaka',
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit'
+    });
+    const todayStr = formatter.format(now);
+    
     return matches.filter(m => {
       const matchDate = new Date(m.date);
-      const bdMatch = new Date(
-        matchDate.toLocaleString('en-US', { timeZone: 'Asia/Dhaka' })
-      );
-      const matchStr = bdMatch.toISOString().split('T')[0];
+      const matchStr = formatter.format(matchDate);
       return matchStr === todayStr;
     });
   }, [matches]);
@@ -135,10 +136,14 @@ export function useMatches() {
   const upcomingMatches = useMemo(
     () =>
       matches
-        .filter(m => new Date(m.date) > new Date() && m.status === 'SCHEDULED')
+        .filter(m => 
+          new Date(m.date) > new Date() && 
+          m.status === 'SCHEDULED' &&
+          !todayMatches.some(t => t.id === m.id)
+        )
         .sort((a, b) => new Date(a.date) - new Date(b.date))
         .slice(0, 6),
-    [matches]
+    [matches, todayMatches]
   );
 
   return {
