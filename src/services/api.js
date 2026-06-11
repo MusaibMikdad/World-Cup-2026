@@ -25,24 +25,51 @@ const checkRateLimit = () => {
   requestCount++;
 };
 
+// Fetch live scores from the public ESPN Soccer API
+const fetchEspnLiveMatches = async () => {
+  try {
+    const response = await fetch('https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard');
+    if (!response.ok) return { matches: [] };
+    const data = await response.json();
+    
+    const mappedMatches = data.events.map(event => {
+      const comp = event.competitions[0];
+      const home = comp.competitors.find(c => c.homeAway === 'home');
+      const away = comp.competitors.find(c => c.homeAway === 'away');
+      
+      let status = 'SCHEDULED';
+      if (comp.status.type.state === 'in') status = 'IN_PLAY';
+      if (comp.status.type.state === 'post') status = 'FINISHED';
+
+      // ESPN displayClock is usually something like "75'" or "HT"
+      let minute = comp.status.displayClock;
+
+      return {
+        homeTeam: { tla: home?.team?.abbreviation },
+        awayTeam: { tla: away?.team?.abbreviation },
+        status: status,
+        minute: minute,
+        score: {
+          fullTime: { 
+            home: parseInt(home?.score || 0, 10), 
+            away: parseInt(away?.score || 0, 10) 
+          }
+        }
+      };
+    });
+
+    return { matches: mappedMatches };
+  } catch (err) {
+    console.warn('ESPN API fetch failed:', err);
+    return { matches: [] };
+  }
+};
+
 const fetchApi = async (endpoint) => {
   if (!API_KEY) {
-    console.log('[Mock API] Simulating response for', endpoint);
+    // If no key is provided, use the open ESPN Live API for LIVE matches
     if (endpoint.includes('status=LIVE')) {
-      return {
-        matches: [
-          {
-            homeTeam: { tla: 'MEX' },
-            awayTeam: { tla: 'RSA' },
-            status: 'IN_PLAY',
-            minute: '45+4',
-            score: {
-              fullTime: { home: 1, away: 0 },
-              halfTime: { home: 1, away: 0 }
-            }
-          }
-        ]
-      };
+      return await fetchEspnLiveMatches();
     }
     return { matches: [] };
   }
