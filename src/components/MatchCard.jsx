@@ -27,6 +27,14 @@ export default function MatchCard({ match }) {
     }
 
     const updateClock = () => {
+      // If the API explicitly provides a live minute string/number, trust it directly.
+      if (match.minute) {
+        const minStr = String(match.minute);
+        setMatchClock(minStr === 'HT' || minStr === 'FT' || minStr.includes("'") ? minStr : `${minStr}'`);
+        return;
+      }
+
+      // Fallback: calculate time elapsed locally if no API minute is available
       const now = new Date();
       const start = new Date(match.date);
       const elapsedMin = Math.floor((now - start) / 60000);
