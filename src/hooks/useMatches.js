@@ -82,6 +82,7 @@ export function useMatches() {
               return {
                 ...match,
                 status: apiStatus,
+                minute: apiMatch.minute || null,
                 score: {
                   home:
                     apiMatch.score?.fullTime?.home ??
