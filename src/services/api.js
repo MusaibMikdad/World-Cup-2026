@@ -25,10 +25,11 @@ const checkRateLimit = () => {
   requestCount++;
 };
 
-// Fetch live scores from the public ESPN Soccer API
-const fetchEspnLiveMatches = async () => {
+// Fetch scores from the public ESPN Soccer API (all match states)
+const fetchEspnMatches = async () => {
   try {
-    const response = await fetch('https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard');
+    // Fetch all tournament matches to ensure we get historical/finished scores
+    const response = await fetch('https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard?dates=20260611-20260719');
     if (!response.ok) return { matches: [] };
     const data = await response.json();
     
@@ -67,11 +68,8 @@ const fetchEspnLiveMatches = async () => {
 
 const fetchApi = async (endpoint) => {
   if (!API_KEY) {
-    // If no key is provided, use the open ESPN Live API for LIVE matches
-    if (endpoint.includes('status=LIVE')) {
-      return await fetchEspnLiveMatches();
-    }
-    return { matches: [] };
+    // No API key — use ESPN's free public API for all match data
+    return await fetchEspnMatches();
   }
 
   try {
@@ -106,6 +104,9 @@ export const getMatchday = (matchday) => {
 
 // Get live matches
 export const getLiveMatchesApi = () => getMatches('LIVE');
+
+// Get all matches from ESPN (used for score sync on page load)
+export const getAllMatchesEspn = () => fetchEspnMatches();
 
 // Get scheduled matches
 export const getScheduledMatches = () => getMatches('SCHEDULED');
