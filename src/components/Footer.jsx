@@ -25,14 +25,7 @@ export default function Footer() {
               <span className="flag-emoji">🇲🇽</span>
               <span className="flag-emoji">🇨🇦</span>
             </div>
-            {/* Social Icons */}
-            <div className="footer__social">
-              <a href="#" className="footer__social-link" aria-label="Twitter">𝕏</a>
-              <a href="#" className="footer__social-link" aria-label="Instagram">📷</a>
-              <a href="#" className="footer__social-link" aria-label="YouTube">▶️</a>
-              <a href="#" className="footer__social-link" aria-label="Discord">💬</a>
-              <a href="#" className="footer__social-link" aria-label="GitHub">🐙</a>
-            </div>
+
           </div>
 
           {/* Quick Links */}
@@ -63,10 +56,9 @@ export default function Footer() {
           <div className="footer__column">
             <h4 className="footer__column-title">Legal</h4>
             <ul className="footer__links">
-              <li><a href="#" className="footer__link">Privacy Policy</a></li>
-              <li><a href="#" className="footer__link">Terms of Service</a></li>
-              <li><a href="#" className="footer__link">Cookie Policy</a></li>
-              <li><a href="#" className="footer__link">Contact Us</a></li>
+              <li><Link to="/about#privacy" className="footer__link">Privacy Policy</Link></li>
+              <li><Link to="/about#terms" className="footer__link">Terms of Service</Link></li>
+              <li><Link to="/about#contact" className="footer__link">Contact Us</Link></li>
             </ul>
           </div>
         </div>
