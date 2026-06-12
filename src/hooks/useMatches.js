@@ -34,7 +34,7 @@ const applyTimeStatuses = (matches) => {
       score = { home: 0, away: 0 };
     }
 
-    return { ...m, status: newStatus, score };
+    return { ...m, status: newStatus, score, scorers: m.scorers || [] };
   });
 };
 
@@ -93,6 +93,7 @@ export function useMatches() {
                     apiMatch.score?.halfTime?.away ??
                     match.score.away,
                 },
+                scorers: apiMatch.scorers || []
               };
             }
             return match;
