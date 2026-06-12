@@ -208,23 +208,29 @@ export const getUpcomingMatches = (limit = 6) => {
 };
 
 export const getTodayMatches = () => {
-  // Use Bangladesh timezone for "today"
   const now = new Date();
-  const bdNow = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Dhaka' }));
-  const todayStr = bdNow.toISOString().split('T')[0];
+  const formatter = new Intl.DateTimeFormat('en-CA', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit'
+  });
+  const todayStr = formatter.format(now);
   return allMatches.filter(m => {
     const matchDate = new Date(m.date);
-    const bdMatch = new Date(matchDate.toLocaleString('en-US', { timeZone: 'Asia/Dhaka' }));
-    const matchStr = bdMatch.toISOString().split('T')[0];
+    const matchStr = formatter.format(matchDate);
     return matchStr === todayStr;
   });
 };
 
 export const getUniqueMatchDates = () => {
+  const formatter = new Intl.DateTimeFormat('en-CA', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit'
+  });
   const dates = [...new Set(groupMatches.map(m => {
     const d = new Date(m.date);
-    const bd = new Date(d.toLocaleString('en-US', { timeZone: 'Asia/Dhaka' }));
-    return bd.toISOString().split('T')[0];
+    return formatter.format(d);
   }))];
   return dates.sort();
 };
@@ -238,22 +244,20 @@ export const roundLabels = {
   FINAL: 'Final',
 };
 
-// Format time for display in Bangladesh timezone (24h)
+// Format time for display in user's local timezone (24h)
 export const formatMatchTime = (dateStr) => {
   const date = new Date(dateStr);
   return date.toLocaleString('en-GB', {
-    timeZone: 'Asia/Dhaka',
     hour: '2-digit',
     minute: '2-digit',
     hour12: false,
   });
 };
 
-// Format date for display in Bangladesh timezone
+// Format date for display in user's local timezone
 export const formatMatchDate = (dateStr) => {
   const date = new Date(dateStr);
   return date.toLocaleDateString('en-GB', {
-    timeZone: 'Asia/Dhaka',
     weekday: 'short',
     day: 'numeric',
     month: 'short',

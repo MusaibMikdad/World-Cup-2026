@@ -15,7 +15,7 @@ function BracketSlot({ match }) {
   const hasScore = match.score.home !== null;
 
   const matchDate = new Date(match.date);
-  const dateStr = matchDate.toLocaleDateString('en-GB', { timeZone: 'Asia/Dhaka', month: 'short', day: 'numeric' });
+  const dateStr = matchDate.toLocaleDateString('en-GB', { month: 'short', day: 'numeric' });
 
   return (
     <div className={`ko-slot ${isLive ? 'ko-slot--live' : ''} ${isFinished ? 'ko-slot--finished' : ''}`}>

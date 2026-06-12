@@ -16,16 +16,16 @@ const STAGE_FILTERS = [
   { key: 'FINAL', label: 'Final' },
 ];
 
-// Convert a match date to Bangladesh local date string (YYYY-MM-DD)
-function toBdDate(isoDate) {
+// Convert a match date to local date string (YYYY-MM-DD)
+function toLocalDate(isoDate) {
   const d = new Date(isoDate);
-  return d.toLocaleDateString('en-CA', { timeZone: 'Asia/Dhaka' }); // en-CA gives YYYY-MM-DD
+  return d.toLocaleDateString('en-CA'); // en-CA gives YYYY-MM-DD in browser's local timezone
 }
 
 function formatDateHeader(dateStr) {
-  const d = new Date(dateStr + 'T12:00:00+06:00');
+  const [year, month, day] = dateStr.split('-').map(Number);
+  const d = new Date(year, month - 1, day);
   return d.toLocaleDateString('en-GB', {
-    timeZone: 'Asia/Dhaka',
     weekday: 'long',
     month: 'long',
     day: 'numeric',
@@ -34,11 +34,12 @@ function formatDateHeader(dateStr) {
 }
 
 function formatDatePill(dateStr) {
-  const d = new Date(dateStr + 'T12:00:00+06:00');
-  const day = d.toLocaleDateString('en-GB', { timeZone: 'Asia/Dhaka', weekday: 'short' });
-  const num = d.toLocaleDateString('en-GB', { timeZone: 'Asia/Dhaka', day: 'numeric' });
-  const month = d.toLocaleDateString('en-GB', { timeZone: 'Asia/Dhaka', month: 'short' });
-  return { day, num, month };
+  const [year, month, day] = dateStr.split('-').map(Number);
+  const d = new Date(year, month - 1, day);
+  const dayName = d.toLocaleDateString('en-GB', { weekday: 'short' });
+  const num = d.toLocaleDateString('en-GB', { day: 'numeric' });
+  const monthName = d.toLocaleDateString('en-GB', { month: 'short' });
+  return { day: dayName, num, month: monthName };
 }
 
 function Schedule() {
@@ -48,7 +49,7 @@ function Schedule() {
   const { matches } = useMatches();
 
   const matchDates = useMemo(() => {
-    const allDates = [...new Set(matches.map(m => toBdDate(m.date)))].sort();
+    const allDates = [...new Set(matches.map(m => toLocalDate(m.date)))].sort();
     return allDates;
   }, [matches]);
 
@@ -64,7 +65,7 @@ function Schedule() {
 
     // Date filter
     if (dateFilter) {
-      list = list.filter(m => toBdDate(m.date) === dateFilter);
+      list = list.filter(m => toLocalDate(m.date) === dateFilter);
     }
 
     // Search filter
@@ -93,7 +94,7 @@ function Schedule() {
   const matchesByDate = useMemo(() => {
     const grouped = {};
     filteredMatches.forEach(m => {
-      const date = toBdDate(m.date);
+      const date = toLocalDate(m.date);
       if (!grouped[date]) grouped[date] = [];
       grouped[date].push(m);
     });

@@ -64,13 +64,11 @@ export default function MatchCard({ match }) {
 
     const matchDate = new Date(match.date);
   const formattedDate = matchDate.toLocaleDateString('en-GB', {
-    timeZone: 'Asia/Dhaka',
     weekday: 'short',
     month: 'short',
     day: 'numeric',
   });
   const formattedTime = matchDate.toLocaleTimeString('en-GB', {
-    timeZone: 'Asia/Dhaka',
     hour: '2-digit',
     minute: '2-digit',
     hour12: false,

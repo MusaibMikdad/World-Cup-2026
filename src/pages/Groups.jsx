@@ -7,12 +7,12 @@ import './Groups.css';
 
 function formatMatchDate(dateStr) {
   const d = new Date(dateStr);
-  return d.toLocaleDateString('en-GB', { timeZone: 'Asia/Dhaka', month: 'short', day: 'numeric' });
+  return d.toLocaleDateString('en-GB', { month: 'short', day: 'numeric' });
 }
 
 function formatMatchTime(dateStr) {
   const d = new Date(dateStr);
-  return d.toLocaleTimeString('en-GB', { timeZone: 'Asia/Dhaka', hour: '2-digit', minute: '2-digit', hour12: false });
+  return d.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', hour12: false });
 }
 
 function Groups() {

@@ -13,13 +13,11 @@ function MiniMatch({ match }) {
 
   const matchDate = new Date(match.date);
   const time = matchDate.toLocaleTimeString('en-GB', {
-    timeZone: 'Asia/Dhaka',
     hour: '2-digit',
     minute: '2-digit',
     hour12: false,
   });
   const dateStr = matchDate.toLocaleDateString('en-GB', {
-    timeZone: 'Asia/Dhaka',
     month: 'short',
     day: 'numeric',
   });
@@ -61,7 +59,6 @@ export default function LiveScoreBar() {
   const todayFinished = useMemo(() => {
     const now = new Date();
     const formatter = new Intl.DateTimeFormat('en-CA', {
-      timeZone: 'Asia/Dhaka',
       year: 'numeric',
       month: '2-digit',
       day: '2-digit'
