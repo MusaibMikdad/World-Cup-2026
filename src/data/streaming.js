@@ -39,7 +39,6 @@ export const streamingPlatforms = [
   { name: 'ENTV', url: 'https://www.entv.dz', region: 'Africa & MENA', country: '🇩🇿 Algeria', free: true, note: 'Free-to-air for national matches' },
   { name: 'beIN SPORTS', url: 'https://www.bein.com', region: 'Africa & MENA', country: '🌍 MENA Region', free: false, note: 'Subscription required (24 countries)' },
 
-  // Global
   // (No global free links available currently)
 ];
 
@@ -52,4 +51,4 @@ export const getFreeStreaming = () => {
   return streamingPlatforms.filter(p => p.free);
 };
 
-export const regions = ['All', 'Americas', 'Europe', 'Asia & Oceania', 'Africa & MENA', 'Global'];
+export const regions = ['All', 'Americas', 'Europe', 'Asia & Oceania', 'Africa & MENA'];
