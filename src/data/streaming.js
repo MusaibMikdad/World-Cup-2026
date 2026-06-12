@@ -29,6 +29,7 @@ export const streamingPlatforms = [
   { name: 'Toffee', url: 'https://toffeelive.com', region: 'Asia & Oceania', country: '🇧🇩 Bangladesh', free: false, note: 'Paid subscription required' },
   { name: 'Bioscope', url: 'https://www.bioscopelive.com', region: 'Asia & Oceania', country: '🇧🇩 Bangladesh', free: false, note: 'Paid subscription required' },
   { name: 'KickBD', url: 'https://kickbd.com/', region: 'Asia & Oceania', country: '🇧🇩 Bangladesh', free: true, note: 'Free live match streaming website' },
+  { name: 'T6 SPORTS', url: 'https://www.t6sports.cc/watch-live/1', region: 'Asia & Oceania', country: '🇧🇩 Bangladesh', free: true, note: 'Free live streaming server' },
   { name: 'CCTV Sports', url: 'https://sports.cctv.com', region: 'Asia & Oceania', country: '🇨🇳 China', free: true, note: 'Free-to-air' },
   { name: 'JioCinema', url: 'https://www.jiocinema.com', region: 'Asia & Oceania', country: '🇮🇳 India', free: false, note: 'Subscription required' },
   { name: 'ABEMA', url: 'https://abema.tv', region: 'Asia & Oceania', country: '🇯🇵 Japan', free: true, note: 'Select matches free' },
