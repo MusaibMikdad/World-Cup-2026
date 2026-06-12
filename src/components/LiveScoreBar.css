@@ -1,0 +1,218 @@
+/* ========================================
+   LiveScoreBar — Thin Marquee Bar
+   ======================================== */
+
+.scorebar {
+  position: fixed;
+  top: var(--navbar-height);
+  left: 0;
+  right: 0;
+  height: 56px;
+  z-index: 999;
+  background: rgba(6, 9, 20, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border-glass);
+  overflow: hidden;
+}
+
+.scorebar__inner {
+  height: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+/* ─── Track ─── */
+.scorebar__track {
+  display: flex;
+  width: 100%;
+  overflow: hidden;
+}
+
+.scorebar__track--marquee {
+  animation: none;
+}
+
+.scorebar__track--marquee .scorebar__matches {
+  animation: marquee 30s linear infinite;
+  flex-shrink: 0;
+}
+
+.scorebar__matches {
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
+  padding: 0 var(--space-lg);
+  flex-shrink: 0;
+}
+
+/* ─── Mini Match ─── */
+.scorebar__match {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  white-space: nowrap;
+  padding: 4px var(--space-md);
+  border-radius: var(--radius-md);
+  background: var(--bg-glass);
+  border: 1px solid transparent;
+  transition: all var(--transition-fast);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.scorebar__match-main {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.scorebar__match-scorers {
+  font-size: 0.62rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+  line-height: 1.1;
+  opacity: 0.85;
+}
+
+.scorebar__ft-badge {
+  font-size: 0.55rem;
+  font-weight: 700;
+  color: var(--accent-green);
+  background: var(--accent-green-dim);
+  padding: 1px 4px;
+  border-radius: var(--radius-sm);
+  margin-left: var(--space-xs);
+  letter-spacing: 0.5px;
+}
+
+.scorebar__match:hover {
+  background: var(--bg-glass-hover);
+  border-color: var(--border-glass-hover);
+}
+
+.scorebar__match--live {
+  border-color: rgba(255, 71, 87, 0.3);
+  background: var(--live-red-dim);
+}
+
+.scorebar__live-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--live-red);
+  animation: pulse-dot 1.5s ease-in-out infinite;
+  box-shadow: 0 0 6px var(--live-red-glow);
+  flex-shrink: 0;
+}
+
+.scorebar__flag {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.scorebar__code {
+  font-family: var(--font-heading);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: 0.5px;
+}
+
+.scorebar__score {
+  font-family: var(--font-heading);
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  padding: 0 var(--space-xs);
+}
+
+.scorebar__score--live {
+  color: var(--live-red);
+}
+
+.scorebar__time {
+  font-size: 0.7rem;
+  color: var(--text-tertiary);
+  padding: 0 var(--space-xs);
+}
+
+.scorebar__next-tag {
+  font-size: 0.55rem;
+  font-weight: 700;
+  color: var(--accent-green);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.scorebar__ft {
+  font-size: 0.6rem;
+  font-weight: 600;
+  color: var(--accent-green);
+  background: var(--accent-green-dim);
+  padding: 1px 6px;
+  border-radius: var(--radius-full);
+  letter-spacing: 0.5px;
+}
+
+/* ─── Next Match Fallback ─── */
+.scorebar__next {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: 0 var(--space-lg);
+  width: 100%;
+  justify-content: center;
+  white-space: nowrap;
+}
+
+.scorebar__next-label {
+  font-size: 0.75rem;
+  color: var(--text-tertiary);
+  font-weight: 500;
+}
+
+.scorebar__vs {
+  font-size: 0.7rem;
+  color: var(--text-tertiary);
+}
+
+.scorebar__next-time {
+  font-size: 0.75rem;
+  color: var(--accent-green);
+  font-weight: 600;
+  margin-left: var(--space-sm);
+  background: var(--accent-green-dim);
+  padding: 2px 10px;
+  border-radius: var(--radius-full);
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 768px) {
+  .scorebar {
+    height: 48px;
+  }
+
+  .scorebar__match {
+    padding: 2px var(--space-sm);
+    gap: 1px;
+    border-radius: var(--radius-sm);
+  }
+
+  .scorebar__match-scorers {
+    font-size: 0.55rem;
+  }
+
+  .scorebar__code {
+    font-size: 0.65rem;
+  }
+
+  .scorebar__flag {
+    font-size: 0.85rem;
+  }
+}
