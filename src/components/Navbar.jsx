@@ -9,6 +9,7 @@ const navLinks = [
   { path: '/groups', label: 'Groups', icon: '🏆' },
   { path: '/knockout', label: 'Knockout', icon: '⚔️' },
   { path: '/watch', label: 'Watch Live', icon: '📺' },
+  { path: '/about', label: 'About', icon: '📄' },
 ];
 
 export default function Navbar() {
