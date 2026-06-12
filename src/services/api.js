@@ -45,6 +45,19 @@ const fetchEspnMatches = async () => {
       // ESPN displayClock is usually something like "75'" or "HT"
       let minute = comp.status.displayClock;
 
+      // Extract scorers
+      let scorers = [];
+      if (comp.details) {
+        scorers = comp.details
+          .filter(detail => detail.scoringPlay && detail.athletesInvolved && detail.athletesInvolved.length > 0)
+          .map(detail => {
+            const player = detail.athletesInvolved[0].shortName || detail.athletesInvolved[0].displayName;
+            const time = detail.clock?.displayValue || '';
+            const isHome = String(detail.team?.id) === String(home?.id);
+            return { player, time, isHome };
+          });
+      }
+
       return {
         homeTeam: { tla: home?.team?.abbreviation },
         awayTeam: { tla: away?.team?.abbreviation },
@@ -55,7 +68,8 @@ const fetchEspnMatches = async () => {
             home: parseInt(home?.score || 0, 10), 
             away: parseInt(away?.score || 0, 10) 
           }
-        }
+        },
+        scorers: scorers
       };
     });
 
