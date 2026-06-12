@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { allMatches } from '../data/matches';
-import { getLiveMatchesApi } from '../services/api';
+import { getAllMatchesEspn } from '../services/api';
 
 // A football match lasts ~120 minutes real time (90 min play + 15 min HT + extras)
 const MATCH_DURATION_MIN = 120;
@@ -58,10 +58,10 @@ export function useMatches() {
     return () => clearInterval(statusIntervalRef.current);
   }, []);
 
-  // ── Try to fetch live scores from API every 30 seconds ──
-  const refreshLiveData = useCallback(async () => {
+  // ── Fetch ALL scores from ESPN every 30 seconds ──
+  const refreshAllScores = useCallback(async () => {
     try {
-      const apiData = await getLiveMatchesApi();
+      const apiData = await getAllMatchesEspn();
       if (apiData?.matches?.length > 0) {
         setMatches(prev =>
           prev.map(match => {
@@ -101,15 +101,15 @@ export function useMatches() {
       }
     } catch (err) {
       // Silently fail — time-based detection is the fallback
-      console.warn('Live data refresh failed:', err.message);
+      console.warn('Score refresh failed:', err.message);
     }
   }, []);
 
   useEffect(() => {
-    refreshLiveData();
-    apiIntervalRef.current = setInterval(refreshLiveData, 30000);
+    refreshAllScores();
+    apiIntervalRef.current = setInterval(refreshAllScores, 30000);
     return () => clearInterval(apiIntervalRef.current);
-  }, [refreshLiveData]);
+  }, [refreshAllScores]);
 
   // ── Derived data ──
   const liveMatches = useMemo(
@@ -154,7 +154,7 @@ export function useMatches() {
     upcomingMatches,
     loading,
     error,
-    refreshLiveData,
+    refreshAllScores,
   };
 }
 
