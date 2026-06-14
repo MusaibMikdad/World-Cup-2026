@@ -85,10 +85,8 @@ function MiniMatch({ match }) {
     day: 'numeric',
   });
 
-  const scorers = match.scorers || [];
-
   return (
-    <div className={`scorebar__match ${isLive ? 'scorebar__match--live' : ''} ${scorers.length > 0 ? 'scorebar__match--has-scorers' : ''}`}>
+    <div className={`scorebar__match ${isLive ? 'scorebar__match--live' : ''}`}>
       <div className="scorebar__match-main">
         {isLive && <span className="scorebar__live-dot" />}
         <Flag code={home.code} size="sm" />
@@ -106,23 +104,6 @@ function MiniMatch({ match }) {
         <Flag code={away.code} size="sm" />
         {isFinished && <span className="scorebar__ft-badge">FT</span>}
       </div>
-      {scorers.length > 0 && (
-        <div className="scorebar__match-scorers">
-          {scorers.map((s, idx) => (
-            <span key={idx} className="scorebar__scorer-item">
-              <SoccerBallIcon type={s.type || 'goal'} />
-              <span className="scorebar__scorer-name">{s.player} {s.time}</span>
-              {s.assist && (
-                <span className="scorebar__scorer-assist">
-                  <SoccerBallIcon type="assist" />
-                  <span className="scorebar__assist-name">{s.assist}</span>
-                </span>
-              )}
-              {idx < scorers.length - 1 && <span className="scorebar__scorer-sep">,</span>}
-            </span>
-          ))}
-        </div>
-      )}
     </div>
   );
 }
@@ -194,30 +175,6 @@ export default function LiveScoreBar() {
             <span className="scorebar__next-label">No upcoming matches</span>
           </div>
         )}
-
-        {/* Static Legend Box */}
-        <div className="scorebar__legend">
-          <div className="scorebar__legend-item">
-            <SoccerBallIcon type="goal" />
-            <span className="scorebar__legend-text">Goal</span>
-          </div>
-          <div className="scorebar__legend-item">
-            <SoccerBallIcon type="penalty" />
-            <span className="scorebar__legend-text">Penalty</span>
-          </div>
-          <div className="scorebar__legend-item">
-            <SoccerBallIcon type="penalty_saved" />
-            <span className="scorebar__legend-text">Penalty Saved</span>
-          </div>
-          <div className="scorebar__legend-item">
-            <SoccerBallIcon type="own_goal" />
-            <span className="scorebar__legend-text">Own Goal</span>
-          </div>
-          <div className="scorebar__legend-item">
-            <SoccerBallIcon type="assist" />
-            <span className="scorebar__legend-text">Assist</span>
-          </div>
-        </div>
       </div>
     </div>
   );
