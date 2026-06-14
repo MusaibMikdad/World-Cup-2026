@@ -276,3 +276,44 @@
     font-size: 0.78rem;
   }
 }
+
+@media (max-width: 480px) {
+  .watch-page {
+    padding-top: calc(var(--navbar-height) + 4.5rem);
+  }
+
+  .watch-header {
+    margin-bottom: var(--space-xl);
+  }
+
+  .watch-region-tabs {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+    justify-content: flex-start;
+    border-radius: var(--radius-lg);
+    scrollbar-width: none;
+  }
+
+  .watch-region-tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .watch-region-tab {
+    padding: 0.4rem 0.75rem;
+    font-size: 0.75rem;
+  }
+
+  .watch-no-live {
+    padding: var(--space-xl) var(--space-md);
+  }
+
+  .watch-tip {
+    gap: var(--space-sm);
+    padding: var(--space-sm);
+  }
+
+  .watch-tip-icon {
+    font-size: 1.4rem;
+  }
+}

@@ -75,6 +75,7 @@
   padding: var(--space-sm) 0;
   scrollbar-width: thin;
   -ms-overflow-style: none;
+  -webkit-overflow-scrolling: touch;
 }
 
 .schedule-date-scroll::-webkit-scrollbar {
@@ -260,5 +261,50 @@
   .schedule-stage-tab {
     padding: 0.4rem 0.8rem;
     font-size: 0.78rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .schedule-page {
+    padding-top: calc(var(--navbar-height) + 4.5rem);
+  }
+
+  .schedule-header {
+    margin-bottom: var(--space-xl);
+  }
+
+  .schedule-stage-tabs {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+    justify-content: flex-start;
+    border-radius: var(--radius-lg);
+    scrollbar-width: none;
+  }
+
+  .schedule-stage-tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .schedule-stage-tab {
+    padding: 0.4rem 0.75rem;
+    font-size: 0.75rem;
+  }
+
+  .schedule-date-pill {
+    min-width: 60px;
+    padding: 0.4rem 0.75rem;
+  }
+
+  .schedule-date-pill-num {
+    font-size: 1.1rem;
+  }
+
+  .schedule-date-pill-day {
+    font-size: 0.6rem;
+  }
+
+  .schedule-search-wrap {
+    max-width: 100%;
   }
 }

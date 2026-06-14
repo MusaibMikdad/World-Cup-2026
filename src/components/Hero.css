@@ -373,3 +373,37 @@
     display: none;
   }
 }
+
+@media (max-width: 480px) {
+  .hero {
+    padding-top: calc(var(--navbar-height) + 1rem);
+    padding-bottom: var(--space-xl);
+  }
+
+  .hero__content {
+    padding: 0 var(--space-sm);
+  }
+
+  .hero__stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-md) var(--space-lg);
+    padding: var(--space-md);
+    border-radius: var(--radius-lg);
+    width: 100%;
+    max-width: 290px;
+  }
+
+  .hero__stat-divider {
+    display: none;
+  }
+
+  .hero__stat-value {
+    font-size: 1.25rem;
+  }
+
+  .hero__stat-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.5px;
+  }
+}

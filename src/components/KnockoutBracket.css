@@ -11,6 +11,7 @@
   overflow-x: auto;
   padding-bottom: var(--space-lg);
   scrollbar-width: thin;
+  -webkit-overflow-scrolling: touch;
 }
 
 .ko-bracket__rounds {
@@ -220,5 +221,43 @@
 
   .ko-slot {
     min-width: 160px;
+  }
+}
+
+@media (max-width: 480px) {
+  .ko-bracket__rounds {
+    gap: var(--space-md);
+  }
+
+  .ko-bracket__round {
+    min-width: 140px;
+    gap: var(--space-sm);
+  }
+
+  .ko-slot {
+    min-width: 130px;
+  }
+
+  .ko-slot__name {
+    font-size: 0.72rem;
+  }
+
+  .ko-slot__code {
+    display: none;
+  }
+
+  .ko-slot__team {
+    padding: var(--space-xs) var(--space-sm);
+    gap: var(--space-xs);
+  }
+
+  .ko-slot__score {
+    padding: 1px 6px;
+    font-size: 0.8rem;
+    min-width: 18px;
+  }
+
+  .ko-slot__meta {
+    padding: 2px var(--space-sm);
   }
 }

@@ -57,6 +57,7 @@
 .streaming__tabs-wrapper {
   overflow-x: auto;
   padding-bottom: var(--space-xs);
+  -webkit-overflow-scrolling: touch;
 }
 
 .streaming__tabs {
@@ -173,5 +174,26 @@
   .streaming__modal-body {
     padding: var(--space-lg);
     margin: var(--space-md);
+  }
+}
+
+@media (max-width: 480px) {
+  .streaming__overlay {
+    padding: var(--space-sm);
+  }
+
+  .streaming__modal-body {
+    padding: var(--space-md);
+    border-radius: var(--radius-lg);
+  }
+
+  .streaming__card {
+    padding: var(--space-md);
+  }
+
+  .streaming__close {
+    width: 32px;
+    height: 32px;
+    font-size: 1.1rem;
   }
 }

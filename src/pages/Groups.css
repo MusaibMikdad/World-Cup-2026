@@ -200,3 +200,38 @@
     grid-template-columns: 1fr;
   }
 }
+
+@media (max-width: 480px) {
+  .groups-page {
+    padding-top: calc(var(--navbar-height) + 4.5rem);
+  }
+
+  .groups-header {
+    margin-bottom: var(--space-xl);
+  }
+
+  .groups-page .container {
+    padding: 0 var(--space-sm);
+  }
+
+  .groups-match-row {
+    padding: var(--space-sm);
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+  }
+
+  .groups-match-teams {
+    font-size: 0.8rem;
+    width: 100%;
+    flex: unset;
+  }
+
+  .groups-match-date {
+    font-size: 0.68rem;
+    width: 100%;
+  }
+
+  .groups-match-score {
+    font-size: 0.9rem;
+  }
+}

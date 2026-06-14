@@ -255,3 +255,41 @@
     display: none; /* Hide text on mobile to save space */
   }
 }
+
+@media (max-width: 480px) {
+  .team-orbit-container {
+    --outer-radius: 125px;
+    --inner-radius: 75px;
+    max-width: 290px;
+  }
+
+  .team-orbit-core {
+    width: 90px;
+    height: 90px;
+  }
+
+  .team-orbit-core-number {
+    font-size: 2rem;
+  }
+
+  .team-orbit-core-label {
+    font-size: 0.65rem;
+    letter-spacing: 2px;
+  }
+
+  .team-orbit-core-name {
+    font-size: 0.75rem;
+  }
+
+  .team-orbit-core-conf {
+    font-size: 0.65rem;
+    letter-spacing: 1px;
+  }
+
+  .team-orbit-chip {
+    width: 32px;
+    height: 32px;
+    left: -16px;
+    top: -16px;
+  }
+}

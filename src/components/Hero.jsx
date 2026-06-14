@@ -84,7 +84,7 @@ export default function Hero() {
             </div>
           ) : nextMatch ? (
             <div className="hero__countdown-section">
-              <p className="hero__next-match-label">NEXT FACE-OFF</p>
+              <p className="hero__next-match-label">NEXT MATCH</p>
               {nextMatchInfo && (
                 <p className="hero__next-match-teams">
                   <Flag code={nextMatchInfo.home.code} size="md" />

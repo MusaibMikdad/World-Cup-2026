@@ -217,3 +217,32 @@
     padding-top: var(--space-2xl);
   }
 }
+
+@media (max-width: 480px) {
+  .footer {
+    margin-top: var(--space-2xl);
+  }
+
+  .footer__inner {
+    padding-top: var(--space-xl);
+    padding-bottom: var(--space-md);
+  }
+
+  .footer__brand {
+    align-items: center;
+    text-align: center;
+  }
+
+  .footer__social {
+    justify-content: center;
+  }
+
+  .footer__column {
+    align-items: center;
+    text-align: center;
+  }
+
+  .footer__links {
+    align-items: center;
+  }
+}
