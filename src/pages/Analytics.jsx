@@ -5,9 +5,7 @@ import './Analytics.css';
 const ADMIN_PASSCODE = 'admin2026';
 
 export default function Analytics() {
-  const [isAuthenticated, setIsAuthenticated] = useState(
-    () => sessionStorage.getItem('wc2026_admin_auth') === 'true'
-  );
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [passcode, setPasscode] = useState('');
   const [error, setError] = useState(false);
   const [shake, setShake] = useState(false);
@@ -26,7 +24,6 @@ export default function Analytics() {
     e.preventDefault();
     if (passcode === ADMIN_PASSCODE) {
       setIsAuthenticated(true);
-      sessionStorage.setItem('wc2026_admin_auth', 'true');
       trackEvent('Action', 'Admin login successful');
     } else {
       setError(true);
@@ -39,7 +36,6 @@ export default function Analytics() {
   const handleLogout = () => {
     trackEvent('Action', 'Admin logout');
     setIsAuthenticated(false);
-    sessionStorage.removeItem('wc2026_admin_auth');
     setPasscode('');
   };
 
