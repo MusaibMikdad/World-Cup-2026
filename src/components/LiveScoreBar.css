@@ -203,25 +203,6 @@
     height: 48px;
   }
 
-  .scorebar__track {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scroll-snap-type: x mandatory;
-    scrollbar-width: none; /* Hide standard Firefox scrollbar */
-  }
-
-  .scorebar__track::-webkit-scrollbar {
-    display: none; /* Hide Webkit scrollbar */
-  }
-
-  .scorebar__track--marquee .scorebar__matches {
-    animation: none;
-  }
-
-  .scorebar__track .scorebar__matches:nth-child(2) {
-    display: none !important;
-  }
-
   .scorebar__matches {
     padding: 0 var(--space-md);
     gap: var(--space-sm);
@@ -231,7 +212,6 @@
     padding: 2px var(--space-sm);
     gap: 1px;
     border-radius: var(--radius-sm);
-    scroll-snap-align: start;
   }
 
   .scorebar__match-scorers {
