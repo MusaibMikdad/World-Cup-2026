@@ -193,20 +193,26 @@
   box-shadow: 0 0 6px rgba(79, 140, 255, 0.4);
 }
 
-/* ─── Hide on mobile ─── */
-.gt-hide-mobile {
-  display: block;
+/* ─── Scrollable Table Wrapper ─── */
+.group-table__table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none; /* Hide scrollbar for standard Firefox */
+  margin: 0 calc(var(--space-md) * -1); /* bleed to card borders slightly */
+  padding: 0 var(--space-md);
+}
+
+.group-table__table-wrapper::-webkit-scrollbar {
+  display: none; /* Hide scrollbar for Chrome/Safari */
 }
 
 /* ─── Responsive ─── */
 @media (max-width: 768px) {
   .gt-row {
-    grid-template-columns: 32px 1fr repeat(6, 28px);
+    grid-template-columns: 32px 130px repeat(8, 28px) !important;
+    min-width: 390px; /* Force minimum width to fit all 10 columns */
     justify-content: space-between;
-  }
-
-  .gt-hide-mobile {
-    display: none !important;
   }
 
   .gt-team-name {
@@ -214,30 +220,15 @@
   }
 
   .gt-team-code {
-    display: none;
-  }
-}
-
-@media (max-width: 400px) {
-  .gt-row {
-    grid-template-columns: 30px 1fr repeat(3, 26px) !important;
-  }
-
-  /* Hide W, D, L columns */
-  .gt-row .gt-cell:nth-child(4),
-  .gt-row .gt-cell:nth-child(5),
-  .gt-row .gt-cell:nth-child(6) {
-    display: none !important;
-  }
-
-  .gt-team-name {
-    font-size: 0.75rem;
+    display: none; /* Hide team code to save space */
   }
 
   .gt-cell {
     font-size: 0.78rem;
   }
+}
 
+@media (max-width: 480px) {
   .group-table__legend {
     flex-direction: column;
     gap: var(--space-xs);
