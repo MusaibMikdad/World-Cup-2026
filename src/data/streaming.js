@@ -25,7 +25,6 @@ export const streamingPlatforms = [
 
   // Asia & Oceania
   { name: 'SBS On Demand', url: 'https://www.sbs.com.au/ondemand', region: 'Asia & Oceania', country: '🇦🇺 Australia', free: true, note: 'Free for Australian viewers' },
-  { name: 'BTV', url: 'https://btv.gov.bd', region: 'Asia & Oceania', country: '🇧🇩 Bangladesh', free: true, note: 'Free-to-air government broadcast' },
   { name: 'Toffee', url: 'https://toffeelive.com', region: 'Asia & Oceania', country: '🇧🇩 Bangladesh', free: false, note: 'Paid subscription required' },
   { name: 'Bioscope', url: 'https://www.bioscopelive.com', region: 'Asia & Oceania', country: '🇧🇩 Bangladesh', free: false, note: 'Paid subscription required' },
   { name: 'KickBD', url: 'https://kickbd.com/', region: 'Asia & Oceania', country: '🇧🇩 Bangladesh', free: true, note: 'Free live match streaming website' },
