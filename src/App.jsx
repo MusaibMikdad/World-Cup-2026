@@ -8,6 +8,8 @@ import Groups from './pages/Groups';
 import Knockout from './pages/Knockout';
 import WatchLive from './pages/WatchLive';
 import About from './pages/About';
+import Analytics from './pages/Analytics';
+import { trackPageView, getSessionId } from './services/analytics';
 
 function ScrollToTop() {
   const { pathname, hash } = useLocation();
@@ -31,6 +33,18 @@ function ScrollToTop() {
 }
 
 function AppLayout() {
+  const location = useLocation();
+
+  useEffect(() => {
+    // Ensure session is initialized
+    getSessionId();
+  }, []);
+
+  useEffect(() => {
+    // Track every page view including search parameters and hash
+    trackPageView(location.pathname + location.search + location.hash);
+  }, [location]);
+
   return (
     <>
       <ScrollToTop />
@@ -43,6 +57,7 @@ function AppLayout() {
           <Route path="/knockout" element={<Knockout />} />
           <Route path="/watch" element={<WatchLive />} />
           <Route path="/about" element={<About />} />
+          <Route path="/analytics" element={<Analytics />} />
         </Routes>
       </main>
       <Footer />

@@ -59,6 +59,7 @@ export default function Footer() {
               <li><Link to="/about#privacy" className="footer__link">Privacy Policy</Link></li>
               <li><Link to="/about#terms" className="footer__link">Terms of Service</Link></li>
               <li><Link to="/about#contact" className="footer__link">Contact Us</Link></li>
+              <li><Link to="/analytics" className="footer__link footer__link--accent">🔒 User Tracking DB</Link></li>
             </ul>
           </div>
         </div>

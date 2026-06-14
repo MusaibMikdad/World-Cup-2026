@@ -4,6 +4,7 @@ import { getTeam } from '../data/teams';
 import { getVenue } from '../data/venues';
 import { getFreeStreaming, streamingPlatforms } from '../data/streaming';
 import Flag from './Flag';
+import { trackEvent } from '../services/analytics';
 import './MatchCard.css';
 
 export default function MatchCard({ match }) {
@@ -246,6 +247,7 @@ export default function MatchCard({ match }) {
                     target="_blank"
                     rel="noopener noreferrer"
                     className="match-card__streaming-link match-card__streaming-link--bd"
+                    onClick={() => trackEvent('Stream', 'Watch click (Bangladesh)', p.name)}
                   >
                     <span className="match-card__streaming-name">{p.name}</span>
                     <span className="match-card__streaming-badge">FREE</span>
@@ -255,13 +257,14 @@ export default function MatchCard({ match }) {
             </div>
           )}
 
-
-
           {/* More options link */}
           <Link
             to="/watch#platforms"
             className="match-card__streaming-more"
-            onClick={() => setShowStreaming(false)}
+            onClick={() => {
+              setShowStreaming(false);
+              trackEvent('Click', 'Navigate to more streaming options');
+            }}
           >
             View all streaming platforms →
           </Link>
@@ -270,7 +273,12 @@ export default function MatchCard({ match }) {
 
         <button
           className={`btn btn-sm ${isLive ? 'btn-live' : 'btn-primary'} match-card__watch`}
-          onClick={() => setShowStreaming(!showStreaming)}
+          onClick={() => {
+            setShowStreaming(!showStreaming);
+            if (!showStreaming) {
+              trackEvent('Action', 'Open watch streaming popup', `${homeTeam.code} vs ${awayTeam.code}`);
+            }
+          }}
           aria-expanded={showStreaming}
         >
           {isLive ? '📺 Watch Live' : isFinished ? '🎬 Watch Replay' : '📺 Watch Live'}

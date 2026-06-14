@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import StadiumEgg from './StadiumEgg';
+import { trackEvent } from '../services/analytics';
 import './Navbar.css';
 
 const navLinks = [
@@ -46,6 +47,7 @@ export default function Navbar() {
               onClick={(e) => {
                 e.preventDefault();
                 setEggActive(true);
+                trackEvent('Action', 'Trigger Easter Egg');
               }}
               style={{ cursor: 'pointer' }}
               title="Click me!"
@@ -75,7 +77,10 @@ export default function Navbar() {
           {/* Mobile hamburger */}
           <button
             className={`navbar__hamburger ${mobileOpen ? 'navbar__hamburger--open' : ''}`}
-            onClick={() => setMobileOpen(!mobileOpen)}
+            onClick={() => {
+              setMobileOpen(!mobileOpen);
+              trackEvent('Click', 'Toggle mobile navbar menu', String(!mobileOpen));
+            }}
             aria-label="Toggle menu"
           >
             <span />
