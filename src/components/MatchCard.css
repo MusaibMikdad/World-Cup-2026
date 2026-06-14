@@ -85,13 +85,50 @@
 
 .match-card__scorers-container {
   display: flex;
-  justify-content: space-between;
-  gap: var(--space-md);
+  flex-direction: column;
+  gap: var(--space-xs);
   margin-top: var(--space-xs);
   padding: var(--space-sm) var(--space-md);
   background: rgba(0, 0, 0, 0.2);
   border-radius: var(--radius-md);
   border: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.match-card__scorers-row {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-md);
+  width: 100%;
+}
+
+.match-card__legend-box {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-md);
+  width: 100%;
+  padding-top: var(--space-sm);
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
+  margin-top: var(--space-xs);
+  user-select: none;
+}
+
+.match-card__legend-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--font-heading);
+  font-size: 0.62rem;
+  font-weight: 700;
+  font-style: italic;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.match-card__legend-text {
+  opacity: 0.95;
 }
 
 .match-card__scorers-side {
@@ -114,7 +151,53 @@
 }
 
 .match-card__scorer-item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  width: 100%;
+}
+
+.match-card__scorer-item--away {
+  align-items: flex-end;
+}
+
+.match-card__scorer-main {
+  display: flex;
+  align-items: center;
+  gap: 6px;
   line-height: 1.3;
+}
+
+.match-card__scorer-name {
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.match-card__scorer-time {
+  font-size: 0.65rem;
+  color: var(--text-tertiary);
+  background: rgba(255, 255, 255, 0.05);
+  padding: 1px 4px;
+  border-radius: var(--radius-sm);
+}
+
+.match-card__scorer-assist {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  opacity: 0.8;
+  padding-left: 18px; /* Indent home assist so it sits under the name */
+}
+
+.match-card__scorer-item--away .match-card__scorer-assist {
+  padding-left: 0;
+  padding-right: 18px; /* Indent away assist */
+}
+
+.match-card__assist-name {
+  font-size: 0.68rem;
+  color: var(--text-secondary);
 }
 
 .match-card__team {

@@ -7,7 +7,7 @@
   top: var(--navbar-height);
   left: 0;
   right: 0;
-  height: 56px;
+  height: var(--scorebar-height);
   z-index: 999;
   background: rgba(6, 9, 20, 0.92);
   backdrop-filter: blur(16px);
@@ -21,7 +21,9 @@
   max-width: var(--max-width);
   margin: 0 auto;
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 6px 0;
   overflow: hidden;
 }
 
@@ -83,6 +85,39 @@
   font-weight: 500;
   line-height: 1.1;
   opacity: 0.85;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  align-items: center;
+  justify-content: center;
+}
+
+.scorebar__scorer-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.scorebar__scorer-name {
+  margin-left: 2px;
+}
+
+.scorebar__scorer-assist {
+  display: inline-flex;
+  align-items: center;
+  gap: 1px;
+  opacity: 0.8;
+  margin-left: 3px;
+}
+
+.scorebar__assist-name {
+  font-size: 0.58rem;
+  color: var(--text-tertiary);
+}
+
+.scorebar__scorer-sep {
+  color: var(--text-tertiary);
+  margin-left: 1px;
 }
 
 .scorebar__ft-badge {
@@ -207,7 +242,7 @@
 /* ─── Responsive ─── */
 @media (max-width: 768px) {
   .scorebar {
-    height: 48px;
+    height: var(--scorebar-height);
   }
 
   .scorebar__matches {
@@ -231,5 +266,49 @@
 
   .scorebar__flag {
     font-size: 0.85rem;
+  }
+}
+
+/* ─── Legend ─── */
+.scorebar__legend {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-md);
+  width: 100%;
+  padding-top: 4px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  background: rgba(6, 9, 20, 0.4);
+  padding-bottom: 2px;
+  user-select: none;
+}
+
+.scorebar__legend-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--font-heading);
+  font-size: 0.62rem;
+  font-weight: 700;
+  font-style: italic;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.scorebar__legend-text {
+  opacity: 0.95;
+}
+
+/* Adjust legend gap on mobile */
+@media (max-width: 768px) {
+  .scorebar__legend {
+    gap: var(--space-sm);
+    padding-top: 3px;
+  }
+  
+  .scorebar__legend-item {
+    font-size: 0.52rem;
+    gap: 2px;
   }
 }

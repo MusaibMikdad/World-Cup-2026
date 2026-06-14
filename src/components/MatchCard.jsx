@@ -5,6 +5,7 @@ import { getVenue } from '../data/venues';
 import { getFreeStreaming, streamingPlatforms } from '../data/streaming';
 import Flag from './Flag';
 import { trackEvent } from '../services/analytics';
+import { SoccerBallIcon } from './LiveScoreBar';
 import './MatchCard.css';
 
 export default function MatchCard({ match }) {
@@ -193,19 +194,65 @@ export default function MatchCard({ match }) {
 
         {scorers.length > 0 && (
           <div className="match-card__scorers-container">
-            <div className="match-card__scorers-side match-card__scorers-side--home">
-              {homeScorers.map((s, idx) => (
-                <div key={idx} className="match-card__scorer-item">
-                  ⚽ {s.player} {s.time}
-                </div>
-              ))}
+            <div className="match-card__scorers-row">
+              <div className="match-card__scorers-side match-card__scorers-side--home">
+                {homeScorers.map((s, idx) => (
+                  <div key={idx} className="match-card__scorer-item">
+                    <div className="match-card__scorer-main">
+                      <SoccerBallIcon type={s.type || 'goal'} />
+                      <span className="match-card__scorer-name">{s.player}</span>
+                      <span className="match-card__scorer-time">{s.time}</span>
+                    </div>
+                    {s.assist && (
+                      <div className="match-card__scorer-assist">
+                        <SoccerBallIcon type="assist" />
+                        <span className="match-card__assist-name">{s.assist}</span>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+              <div className="match-card__scorers-side match-card__scorers-side--away">
+                {awayScorers.map((s, idx) => (
+                  <div key={idx} className="match-card__scorer-item match-card__scorer-item--away">
+                    <div className="match-card__scorer-main">
+                      <span className="match-card__scorer-time">{s.time}</span>
+                      <span className="match-card__scorer-name">{s.player}</span>
+                      <SoccerBallIcon type={s.type || 'goal'} />
+                    </div>
+                    {s.assist && (
+                      <div className="match-card__scorer-assist">
+                        <span className="match-card__assist-name">{s.assist}</span>
+                        <SoccerBallIcon type="assist" />
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
             </div>
-            <div className="match-card__scorers-side match-card__scorers-side--away">
-              {awayScorers.map((s, idx) => (
-                <div key={idx} className="match-card__scorer-item">
-                  {s.player} {s.time} ⚽
-                </div>
-              ))}
+
+            {/* Legend Box */}
+            <div className="match-card__legend-box">
+              <div className="match-card__legend-item">
+                <SoccerBallIcon type="goal" />
+                <span className="match-card__legend-text">Goal</span>
+              </div>
+              <div className="match-card__legend-item">
+                <SoccerBallIcon type="penalty" />
+                <span className="match-card__legend-text">Penalty</span>
+              </div>
+              <div className="match-card__legend-item">
+                <SoccerBallIcon type="penalty_saved" />
+                <span className="match-card__legend-text">Penalty Saved</span>
+              </div>
+              <div className="match-card__legend-item">
+                <SoccerBallIcon type="own_goal" />
+                <span className="match-card__legend-text">Own Goal</span>
+              </div>
+              <div className="match-card__legend-item">
+                <SoccerBallIcon type="assist" />
+                <span className="match-card__legend-text">Assist</span>
+              </div>
             </div>
           </div>
         )}

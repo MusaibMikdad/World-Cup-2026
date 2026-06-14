@@ -110,7 +110,7 @@ function Schedule() {
   return (
     <div className="schedule-page" style={{ paddingTop: 0 }}>
       <LiveScoreBar />
-      <div className="container" style={{ marginTop: 'var(--space-2xl)' }}>
+      <div className="container" style={{ marginTop: 'calc(var(--scorebar-height) + var(--space-md))' }}>
         {/* ── Header ── */}
         <header className="schedule-header animate-slide-up">
           <h1 className="section-title">
