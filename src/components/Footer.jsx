@@ -48,7 +48,7 @@ export default function Footer() {
               <li><a href="https://www.foxsports.com" target="_blank" rel="noopener noreferrer" className="footer__link">FOX Sports <span className="footer__external">↗</span></a></li>
               <li><a href="https://www.bbc.co.uk/iplayer" target="_blank" rel="noopener noreferrer" className="footer__link">BBC iPlayer <span className="footer__external">↗</span></a></li>
               <li><a href="https://tubitv.com" target="_blank" rel="noopener noreferrer" className="footer__link">Tubi (Free) <span className="footer__external">↗</span></a></li>
-              <li><Link to="/watch" className="footer__link footer__link--accent">View All →</Link></li>
+              <li><Link to="/watch#platforms" className="footer__link footer__link--accent">View All →</Link></li>
             </ul>
           </div>
 

@@ -90,7 +90,7 @@ function WatchLive() {
         <div className="divider-glow" />
 
         {/* ── Streaming Links by Region ── */}
-        <section className="page-section">
+        <section id="platforms" className="page-section">
           <h2 className="section-title animate-slide-up">
             <span>📺</span> Streaming Platforms
           </h2>
