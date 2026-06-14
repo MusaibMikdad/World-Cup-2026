@@ -83,7 +83,7 @@
   /* ─── Layout ─── */
   --max-width: 1280px;
   --navbar-height: 72px;
-  --scorebar-height: 90px;
+  --scorebar-height: 100px;
 }
 
 /* ─── Reset & Base ─── */
@@ -629,7 +629,7 @@ h1, h2, h3, h4, h5, h6 {
 @media (max-width: 768px) {
   :root {
     --navbar-height: 64px;
-    --scorebar-height: 82px;
+    --scorebar-height: 92px;
   }
   
   .container {

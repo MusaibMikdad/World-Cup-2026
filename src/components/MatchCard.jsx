@@ -23,7 +23,7 @@ export default function MatchCard({ match }) {
   const isFinished = match.status === 'FINISHED';
   const isScheduled = match.status === 'SCHEDULED';
 
-  // ── Live match clock (ticks every second) ──
+  // ── Live match clock (ticks MM:SS + added stoppage time) ──
   const [matchClock, setMatchClock] = useState('');
 
   useEffect(() => {
@@ -32,43 +32,102 @@ export default function MatchCard({ match }) {
       return;
     }
 
+    const parseApiMinute = (minStr) => {
+      const cleaned = minStr.replace(/'/g, '');
+      if (cleaned.includes('+')) {
+        const parts = cleaned.split('+');
+        const mainMin = parseInt(parts[0], 10);
+        const addedMin = parseInt(parts[1], 10);
+        return { mainMin, addedMin };
+      }
+      const val = parseInt(cleaned, 10);
+      if (!isNaN(val)) {
+        return { mainMin: val, addedMin: 0 };
+      }
+      return null;
+    };
+
     const updateClock = () => {
-      // If the API explicitly provides a live minute string/number, trust it directly.
+      // If match.minute is HT or FT, show it directly
       if (match.minute) {
-        const minStr = String(match.minute);
-        if (minStr.toLowerCase().includes('half') || minStr === 'HT' || minStr === '23') {
+        const minStr = String(match.minute).toUpperCase();
+        if (minStr.includes('HALF') || minStr === 'HT') {
           setMatchClock('HT');
-        } else if (minStr.toLowerCase().includes('full') || minStr === 'FT' || minStr === '3') {
-          setMatchClock('FT');
-        } else {
-          setMatchClock(minStr.includes("'") ? minStr : `${minStr}'`);
+          return;
         }
+        if (minStr.includes('FULL') || minStr === 'FT') {
+          setMatchClock('FT');
+          return;
+        }
+      }
+
+      const now = new Date();
+      const start = new Date(match.date);
+      const totalSeconds = Math.floor((now - start) / 1000);
+
+      if (totalSeconds < 0) {
+        setMatchClock({ timeStr: '00:00', addedStr: '' });
         return;
       }
 
-      // Fallback: calculate time elapsed locally if no API minute is available
-      const now = new Date();
-      const start = new Date(match.date);
-      const elapsedMin = Math.floor((now - start) / 60000);
+      // If match.minute is a minute number or injury minutes, parse and use it with ticking seconds
+      if (match.minute) {
+        const minStr = String(match.minute);
+        const parsed = parseApiMinute(minStr);
+        if (parsed) {
+          const { mainMin, addedMin } = parsed;
+          const ss = String(now.getSeconds()).padStart(2, '0');
+          const mm = String(mainMin).padStart(2, '0');
+          setMatchClock({
+            timeStr: `${mm}:${ss}`,
+            addedStr: addedMin > 0 ? `+${addedMin}` : ''
+          });
+          return;
+        }
+      }
 
-      if (elapsedMin <= 45) {
-        setMatchClock(`${Math.max(1, elapsedMin)}'`);
-      } else if (elapsedMin <= 60) {
+      // Timeline stages (seconds):
+      // 1. First Half: 0 to 45 mins (0 to 2700s)
+      if (totalSeconds <= 2700) {
+        const mm = String(Math.floor(totalSeconds / 60)).padStart(2, '0');
+        const ss = String(totalSeconds % 60).padStart(2, '0');
+        setMatchClock({ timeStr: `${mm}:${ss}`, addedStr: '' });
+      }
+      // 2. First Half Injury Time: 45 to 48 mins (2700 to 2880s) -> +3 added
+      else if (totalSeconds <= 2880) {
+        const elapsedSince45 = totalSeconds - 2700;
+        const mm = String(45 + Math.floor(elapsedSince45 / 60)).padStart(2, '0');
+        const ss = String(elapsedSince45 % 60).padStart(2, '0');
+        setMatchClock({ timeStr: `${mm}:${ss}`, addedStr: '+3' });
+      }
+      // 3. Half Time (HT): 2880 to 3780s (15 mins HT)
+      else if (totalSeconds <= 3780) {
         setMatchClock('HT');
-      } else if (elapsedMin <= 105) {
-        setMatchClock(`${elapsedMin - 15}'`);
-      } else if (elapsedMin <= 120) {
-        setMatchClock(`90+${elapsedMin - 105}'`);
-      } else {
+      }
+      // 4. Second Half: 3780 to 6480s (45 mins, runs from 45:00 to 90:00)
+      else if (totalSeconds <= 6480) {
+        const elapsedSecondHalf = totalSeconds - 3780;
+        const mm = String(45 + Math.floor(elapsedSecondHalf / 60)).padStart(2, '0');
+        const ss = String(elapsedSecondHalf % 60).padStart(2, '0');
+        setMatchClock({ timeStr: `${mm}:${ss}`, addedStr: '' });
+      }
+      // 5. Second Half Injury Time: 6480 to 6840s (6 mins of stoppage, runs from 90:00 to 96:00)
+      else if (totalSeconds <= 6840) {
+        const elapsedSecondHalf = totalSeconds - 3780;
+        const mm = String(45 + Math.floor(elapsedSecondHalf / 60)).padStart(2, '0');
+        const ss = String(elapsedSecondHalf % 60).padStart(2, '0');
+        setMatchClock({ timeStr: `${mm}:${ss}`, addedStr: '+6' });
+      }
+      // 6. Full Time (FT): > 6840s
+      else {
         setMatchClock('FT');
       }
     };
 
-      updateClock();
-      const timer = setInterval(updateClock, 1000);
-      return () => clearInterval(timer);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isLive, match.date, match.minute]);
+    updateClock();
+    const timer = setInterval(updateClock, 1000);
+    return () => clearInterval(timer);
+  }, [isLive, match.date, match.minute]);
 
     const matchDate = new Date(match.date);
   const formattedDate = matchDate.toLocaleDateString('en-GB', {
@@ -167,9 +226,18 @@ export default function MatchCard({ match }) {
                 </div>
                 {matchClock && (
                   <div className="match-card__match-clock">
-                    <span className={`match-card__clock-time ${matchClock === 'HT' ? 'match-card__clock-time--ht' : ''}`}>
-                      {matchClock}
-                    </span>
+                    {typeof matchClock === 'string' ? (
+                      <span className={`match-card__clock-time ${matchClock === 'HT' ? 'match-card__clock-time--ht' : ''}`}>
+                        {matchClock}
+                      </span>
+                    ) : (
+                      <div className="match-card__timer-capsule">
+                        <span className="match-card__timer-main-time">{matchClock.timeStr}</span>
+                        {matchClock.addedStr && (
+                          <span className="match-card__timer-added-time">{matchClock.addedStr}</span>
+                        )}
+                      </div>
+                    )}
                   </div>
                 )}
               </div>

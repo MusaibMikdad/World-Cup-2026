@@ -10,7 +10,7 @@
   position: relative;
   overflow: visible;
   min-width: 320px;
-  max-width: 420px;
+  max-width: 520px;
   width: 100%;
 }
 
@@ -86,12 +86,12 @@
 .match-card__scorers-container {
   display: flex;
   flex-direction: column;
-  gap: var(--space-xs);
-  margin-top: var(--space-xs);
-  padding: var(--space-sm) var(--space-md);
-  background: rgba(0, 0, 0, 0.2);
-  border-radius: var(--radius-md);
-  border: 1px solid rgba(255, 255, 255, 0.03);
+  gap: 8px;
+  margin-top: 6px;
+  padding: 8px 14px;
+  background: rgba(0, 0, 0, 0.25);
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .match-card__scorers-row {
@@ -106,11 +106,11 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  gap: var(--space-md);
+  gap: var(--space-sm);
   width: 100%;
   padding-top: var(--space-sm);
   border-top: 1px solid rgba(255, 255, 255, 0.04);
-  margin-top: var(--space-xs);
+  margin-top: 4px;
   user-select: none;
 }
 
@@ -135,8 +135,8 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 3px;
-  font-size: 0.72rem;
+  gap: 4px;
+  font-size: 0.74rem;
   color: var(--text-secondary);
 }
 
@@ -198,6 +198,7 @@
 .match-card__assist-name {
   font-size: 0.68rem;
   color: var(--text-secondary);
+  font-style: italic;
 }
 
 .match-card__team {
@@ -539,6 +540,43 @@
   background: var(--bg-glass-hover);
   border-color: var(--accent-blue);
   color: var(--text-primary);
+}
+
+/* ========================================
+   Live Timer Capsule (White/Red theme)
+   ======================================== */
+.match-card__timer-capsule {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  overflow: hidden;
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 0.95rem;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.match-card__timer-main-time {
+  background: #ffffff;
+  color: #000000;
+  padding: 3px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 72px;
+  text-align: center;
+}
+
+.match-card__timer-added-time {
+  background: #ef4444;
+  color: #ffffff;
+  padding: 3px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-left: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 /* ─── Responsive ─── */
