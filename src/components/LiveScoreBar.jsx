@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import { useMatches } from '../hooks/useMatches';
 import { getTeam } from '../data/teams';
 import Flag from './Flag';
@@ -80,12 +80,21 @@ export default function LiveScoreBar() {
       .slice(0, 6);
   }, [matches]);
 
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth <= 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   const displayMatches = useMemo(() => {
     return [...todayFinished, ...liveMatches, ...upcomingScheduled];
   }, [todayFinished, liveMatches, upcomingScheduled]);
 
   const hasMatches = displayMatches.length > 0;
-  const shouldMarquee = displayMatches.length > 4;
+  const shouldMarquee = displayMatches.length > (isMobile ? 2 : 4);
 
   return (
     <div className="scorebar">

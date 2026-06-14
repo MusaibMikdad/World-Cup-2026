@@ -32,12 +32,17 @@
   overflow: hidden;
 }
 
+@keyframes scorebar-marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-100%); }
+}
+
 .scorebar__track--marquee {
   animation: none;
 }
 
 .scorebar__track--marquee .scorebar__matches {
-  animation: marquee 30s linear infinite;
+  animation: scorebar-marquee 30s linear infinite;
   flex-shrink: 0;
 }
 
@@ -192,9 +197,11 @@
   border-radius: var(--radius-full);
 }
 
-/* Pause marquee on hover (desktop) */
-.scorebar__track--marquee:hover .scorebar__matches {
-  animation-play-state: paused;
+/* Pause marquee on hover (desktop only, avoiding sticky hover on mobile) */
+@media (hover: hover) {
+  .scorebar__track--marquee:hover .scorebar__matches {
+    animation-play-state: paused;
+  }
 }
 
 /* ─── Responsive ─── */
