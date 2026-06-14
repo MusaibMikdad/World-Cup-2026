@@ -44,6 +44,13 @@ const fetchEspnMatches = async () => {
 
       // ESPN displayClock is usually something like "75'" or "HT"
       let minute = comp.status.displayClock;
+      const statusId = String(comp.status.type.id);
+      const statusName = comp.status.type.name;
+      const statusDetail = comp.status.type.detail || '';
+      
+      if (statusId === '23' || statusName === 'STATUS_HALFTIME' || statusDetail.toLowerCase().includes('half')) {
+        minute = 'HT';
+      }
 
       // Extract scorers
       let scorers = [];

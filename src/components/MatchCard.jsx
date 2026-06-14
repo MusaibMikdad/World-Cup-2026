@@ -34,7 +34,13 @@ export default function MatchCard({ match }) {
       // If the API explicitly provides a live minute string/number, trust it directly.
       if (match.minute) {
         const minStr = String(match.minute);
-        setMatchClock(minStr === 'HT' || minStr === 'FT' || minStr.includes("'") ? minStr : `${minStr}'`);
+        if (minStr.toLowerCase().includes('half') || minStr === 'HT' || minStr === '23') {
+          setMatchClock('HT');
+        } else if (minStr.toLowerCase().includes('full') || minStr === 'FT' || minStr === '3') {
+          setMatchClock('FT');
+        } else {
+          setMatchClock(minStr.includes("'") ? minStr : `${minStr}'`);
+        }
         return;
       }
 
