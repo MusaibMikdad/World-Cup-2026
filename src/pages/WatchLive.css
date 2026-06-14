@@ -67,6 +67,7 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: var(--space-lg);
+  align-items: start;
 }
 
 .watch-live-card {

@@ -114,7 +114,7 @@ export function useMatches() {
 
   // ── Derived data ──
   const liveMatches = useMemo(
-    () => matches.filter(m => m.status === 'LIVE'),
+    () => matches.filter(m => m.status === 'LIVE').sort((a, b) => new Date(a.date) - new Date(b.date)),
     [matches]
   );
 
@@ -127,11 +127,13 @@ export function useMatches() {
     });
     const todayStr = formatter.format(now);
     
-    return matches.filter(m => {
-      const matchDate = new Date(m.date);
-      const matchStr = formatter.format(matchDate);
-      return matchStr === todayStr;
-    });
+    return matches
+      .filter(m => {
+        const matchDate = new Date(m.date);
+        const matchStr = formatter.format(matchDate);
+        return matchStr === todayStr;
+      })
+      .sort((a, b) => new Date(a.date) - new Date(b.date));
   }, [matches]);
 
   const upcomingMatches = useMemo(

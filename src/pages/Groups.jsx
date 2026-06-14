@@ -60,13 +60,16 @@ function Groups() {
 function GroupCard({ letter, expanded, onToggle, matchesList }) {
   const matches = useMemo(() => matchesList.filter(m => m.group === letter), [letter, matchesList]);
 
-  // Group matches by matchday
   const matchesByDay = useMemo(() => {
     const byDay = {};
     matches.forEach(m => {
       const md = m.matchday || 1;
       if (!byDay[md]) byDay[md] = [];
       byDay[md].push(m);
+    });
+    // Sort matches in each matchday by date/time
+    Object.keys(byDay).forEach(md => {
+      byDay[md].sort((a, b) => new Date(a.date) - new Date(b.date));
     });
     return Object.entries(byDay).sort(([a], [b]) => Number(a) - Number(b));
   }, [matches]);

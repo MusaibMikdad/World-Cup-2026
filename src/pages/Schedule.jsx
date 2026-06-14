@@ -98,6 +98,10 @@ function Schedule() {
       if (!grouped[date]) grouped[date] = [];
       grouped[date].push(m);
     });
+    // Sort matches inside each date group by date/time
+    Object.keys(grouped).forEach(date => {
+      grouped[date].sort((a, b) => new Date(a.date) - new Date(b.date));
+    });
     return Object.entries(grouped).sort(([a], [b]) => a.localeCompare(b));
   }, [filteredMatches]);
 
