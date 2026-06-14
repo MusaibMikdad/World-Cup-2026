@@ -2,15 +2,46 @@ import { useState, useEffect } from 'react';
 import { getSummaryStats, clearDatabase, trackEvent } from '../services/analytics';
 import './Analytics.css';
 
+const ADMIN_PASSCODE = 'admin2026';
+
 export default function Analytics() {
+  const [isAuthenticated, setIsAuthenticated] = useState(
+    () => sessionStorage.getItem('wc2026_admin_auth') === 'true'
+  );
+  const [passcode, setPasscode] = useState('');
+  const [error, setError] = useState(false);
+  const [shake, setShake] = useState(false);
+
   const [stats, setStats] = useState(getSummaryStats());
   const [expandedSession, setExpandedSession] = useState(null);
   const [showClearConfirm, setShowClearConfirm] = useState(false);
 
   useEffect(() => {
-    // Refresh stats on load
-    setStats(getSummaryStats());
-  }, []);
+    if (isAuthenticated) {
+      setStats(getSummaryStats());
+    }
+  }, [isAuthenticated]);
+
+  const handleLoginSubmit = (e) => {
+    e.preventDefault();
+    if (passcode === ADMIN_PASSCODE) {
+      setIsAuthenticated(true);
+      sessionStorage.setItem('wc2026_admin_auth', 'true');
+      trackEvent('Action', 'Admin login successful');
+    } else {
+      setError(true);
+      setShake(true);
+      setTimeout(() => setShake(false), 400);
+      trackEvent('Action', 'Admin login failed (incorrect passcode)');
+    }
+  };
+
+  const handleLogout = () => {
+    trackEvent('Action', 'Admin logout');
+    setIsAuthenticated(false);
+    sessionStorage.removeItem('wc2026_admin_auth');
+    setPasscode('');
+  };
 
   const handleRefresh = () => {
     setStats(getSummaryStats());
@@ -69,6 +100,37 @@ export default function Analytics() {
     return `${mins}m ${secs % 60}s`;
   };
 
+  // Auth Protection Gate Screen
+  if (!isAuthenticated) {
+    return (
+      <div className="analytics-login-container container animate-fade-in">
+        <div className={`analytics-login-card glass-card ${shake ? 'shake' : ''}`}>
+          <div className="analytics-login-icon">🔒</div>
+          <h2>Admin Portal Access</h2>
+          <p>Please enter the security passcode to unlock the user activity logs.</p>
+          <form onSubmit={handleLoginSubmit} className="analytics-login-form">
+            <input
+              type="password"
+              placeholder="Enter admin passcode"
+              value={passcode}
+              onChange={(e) => {
+                setPasscode(e.target.value);
+                setError(false);
+              }}
+              className={`input-field ${error ? 'input-field--error' : ''}`}
+              autoFocus
+            />
+            {error && <span className="analytics-login-error">Incorrect passcode. Please try again.</span>}
+            <button type="submit" className="btn btn-primary btn-full">
+              Unlock Database
+            </button>
+          </form>
+        </div>
+      </div>
+    );
+  }
+
+  // Dashboard Screen (Unlocked)
   return (
     <div className="analytics-page container animate-fade-in">
       <div className="analytics-header">
@@ -85,6 +147,9 @@ export default function Analytics() {
           </button>
           <button className="btn btn-danger btn-sm" onClick={() => setShowClearConfirm(true)}>
             🗑️ Clear DB
+          </button>
+          <button className="btn btn-secondary btn-sm" onClick={handleLogout}>
+            🔒 Lock Portal
           </button>
         </div>
       </div>
