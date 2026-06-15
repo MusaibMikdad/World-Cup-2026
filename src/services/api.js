@@ -25,7 +25,26 @@ const checkRateLimit = () => {
   requestCount++;
 };
 
+const ASSISTS_CACHE_KEY = 'wc2026_assists_cache';
 
+const getAssistsCache = () => {
+  if (typeof window === 'undefined' || !window.localStorage) return {};
+  try {
+    const cached = localStorage.getItem(ASSISTS_CACHE_KEY);
+    return cached ? JSON.parse(cached) : {};
+  } catch (e) {
+    return {};
+  }
+};
+
+const saveAssistsCache = (cache) => {
+  if (typeof window === 'undefined' || !window.localStorage) return;
+  try {
+    localStorage.setItem(ASSISTS_CACHE_KEY, JSON.stringify(cache));
+  } catch (e) {
+    // Ignore
+  }
+};
 
 // Fetch scores from the public ESPN Soccer API (all match states)
 const fetchEspnMatches = async () => {
@@ -34,6 +53,103 @@ const fetchEspnMatches = async () => {
     const response = await fetch('https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard?dates=20260611-20260719');
     if (!response.ok) return { matches: [] };
     const data = await response.json();
+    
+    // Load existing assists cache
+    const cache = getAssistsCache();
+    
+    // Identify which events need summary fetches
+    const eventIdsToFetch = [];
+    data.events.forEach(event => {
+      const comp = event.competitions[0];
+      const state = comp.status.type.state;
+      const hasGoals = comp.details && comp.details.some(d => d.scoringPlay);
+      
+      if (hasGoals) {
+        const isFinished = state === 'post';
+        if (!isFinished || !cache[event.id]) {
+          eventIdsToFetch.push(event.id);
+        }
+      }
+    });
+
+    // Fetch summaries in parallel
+    const newSummaries = {};
+    if (eventIdsToFetch.length > 0) {
+      const fetchPromises = eventIdsToFetch.map(async (id) => {
+        try {
+          const res = await fetch(`https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/summary?event=${id}`);
+          if (res.ok) {
+            newSummaries[id] = await res.json();
+          }
+        } catch (e) {
+          console.warn(`Failed to fetch summary for ${id}:`, e);
+        }
+      });
+      await Promise.all(fetchPromises);
+    }
+
+    // Update cache with newly fetched summaries
+    let cacheChanged = false;
+    eventIdsToFetch.forEach(id => {
+      const summaryData = newSummaries[id];
+      if (!summaryData) return;
+      
+      const event = data.events.find(e => e.id === id);
+      if (!event) return;
+      
+      const comp = event.competitions[0];
+      const eventAssists = {};
+      
+      if (comp.details) {
+        comp.details
+          .filter(detail => {
+            const typeText = detail.type?.text?.toLowerCase() || '';
+            const isPenaltySaved = typeText.includes('penalty - saved') || typeText.includes('penalty saved') || typeText.includes('penalty - missed') || typeText.includes('penalty missed');
+            return (detail.scoringPlay || isPenaltySaved) && detail.athletesInvolved && detail.athletesInvolved.length > 0;
+          })
+          .forEach(detail => {
+            const player = detail.athletesInvolved[0].shortName || detail.athletesInvolved[0].displayName;
+            const time = detail.clock?.displayValue || '';
+            
+            const comment = summaryData.commentary?.find(c => {
+              const cTime = c.time?.displayValue || '';
+              if (cTime !== time) return false;
+              
+              const text = c.text || '';
+              const lowerText = text.toLowerCase();
+              if (!lowerText.includes('goal')) return false;
+              
+              const parts = player.split(/[\s\.\-]+/).filter(p => p.length > 2);
+              if (parts.length === 0) {
+                return lowerText.includes(player.toLowerCase());
+              }
+              return parts.some(p => lowerText.includes(p.toLowerCase()));
+            });
+            
+            let assist = null;
+            if (comment) {
+              const text = comment.text || '';
+              const match = text.match(/Assisted by ([^\.]+)/i);
+              if (match) {
+                assist = match[1].trim();
+                const cleanMatch = assist.split(/\s+(?:with|following|after)\s+/i)[0];
+                assist = cleanMatch;
+              }
+            }
+            
+            if (assist) {
+              eventAssists[`${time}|${player}`] = assist;
+            }
+          });
+      }
+      
+      cache[id] = eventAssists;
+      cacheChanged = true;
+    });
+    
+    if (cacheChanged) {
+      saveAssistsCache(cache);
+    }
     
     const mappedMatches = data.events.map(event => {
       const comp = event.competitions[0];
@@ -78,9 +194,8 @@ const fetchEspnMatches = async () => {
               type = 'penalty';
             }
 
-            let assist = detail.athletesInvolved[1]
-              ? (detail.athletesInvolved[1].shortName || detail.athletesInvolved[1].displayName)
-              : null;
+            const eventAssists = cache[event.id] || {};
+            const assist = eventAssists[`${time}|${player}`] || null;
 
             return { player, time, isHome, type, assist };
           });
