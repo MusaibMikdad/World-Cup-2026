@@ -10,8 +10,6 @@ import WatchLive from './pages/WatchLive';
 import About from './pages/About';
 import Analytics from './pages/Analytics';
 import { trackPageView, getSessionId } from './services/analytics';
-import { NotificationProvider } from './context/NotificationContext';
-import NotificationToast from './components/NotificationToast';
 
 function ScrollToTop() {
   const { pathname, hash } = useLocation();
@@ -63,7 +61,6 @@ function AppLayout() {
         </Routes>
       </main>
       <Footer />
-      <NotificationToast />
     </>
   );
 }
@@ -71,9 +68,7 @@ function AppLayout() {
 function App() {
   return (
     <BrowserRouter>
-      <NotificationProvider>
-        <AppLayout />
-      </NotificationProvider>
+      <AppLayout />
     </BrowserRouter>
   );
 }

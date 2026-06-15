@@ -2,26 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import StadiumEgg from './StadiumEgg';
 import { trackEvent } from '../services/analytics';
-import { useNotifications } from '../context/NotificationContext';
 import './Navbar.css';
-
-const BellIcon = ({ active }) => (
-  <svg 
-    xmlns="http://www.w3.org/2000/svg" 
-    viewBox="0 0 24 24" 
-    fill={active ? "var(--accent-gold)" : "none"} 
-    stroke={active ? "var(--accent-gold)" : "currentColor"} 
-    strokeWidth="2" 
-    strokeLinecap="round" 
-    strokeLinejoin="round" 
-    width="18" 
-    height="18"
-    className="navbar__notif-bell-svg"
-  >
-    <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
-    <path d="M13.73 21a2 2 0 0 1-3.46 0" />
-  </svg>
-);
 
 const navLinks = [
   { path: '/', label: 'Home', icon: '⚽' },
@@ -34,7 +15,6 @@ const navLinks = [
 
 export default function Navbar() {
   const location = useLocation();
-  const { globalEnabled, toggleGlobalNotifications } = useNotifications();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [eggActive, setEggActive] = useState(false);
@@ -77,49 +57,36 @@ export default function Navbar() {
             <span className="navbar__logo-text">WC 2026</span>
           </Link>
 
-          {/* Actions Container */}
-          <div className="navbar__right-actions">
-            {/* Desktop nav */}
-            <ul className="navbar__links hide-mobile">
-              {navLinks.map((link) => (
-                <li key={link.path}>
-                  <Link
-                    to={link.path}
-                    className={`navbar__link ${location.pathname === link.path ? 'navbar__link--active' : ''}`}
-                  >
-                    {link.label}
-                    {link.path === '/watch' && (
-                      <span className="navbar__live-dot" />
-                    )}
-                  </Link>
-                </li>
-              ))}
-            </ul>
+          {/* Desktop nav */}
+          <ul className="navbar__links hide-mobile">
+            {navLinks.map((link) => (
+              <li key={link.path}>
+                <Link
+                  to={link.path}
+                  className={`navbar__link ${location.pathname === link.path ? 'navbar__link--active' : ''}`}
+                >
+                  {link.label}
+                  {link.path === '/watch' && (
+                    <span className="navbar__live-dot" />
+                  )}
+                </Link>
+              </li>
+            ))}
+          </ul>
 
-            {/* Global Notification Bell */}
-            <button
-              className={`navbar__notif-btn ${globalEnabled ? 'navbar__notif-btn--active' : ''}`}
-              onClick={toggleGlobalNotifications}
-              title={globalEnabled ? 'Turn off match notifications' : 'Turn on notifications for all matches'}
-              aria-label={globalEnabled ? 'Turn off match notifications' : 'Turn on notifications for all matches'}
-            >
-              <BellIcon active={globalEnabled} />
-            </button>
-
-            {/* Mobile hamburger */}
-            <button
-              className={`navbar__hamburger ${mobileOpen ? 'navbar__hamburger--open' : ''}`}
-              onClick={() => {
-                setMobileOpen(!mobileOpen);
-                trackEvent('Click', 'Toggle mobile navbar menu', String(!mobileOpen));
-              }}
-              aria-label="Toggle menu"
-            >
-              <span />
-              <span />
-              <span />
-            </button>
-          </div>
+          {/* Mobile hamburger */}
+          <button
+            className={`navbar__hamburger ${mobileOpen ? 'navbar__hamburger--open' : ''}`}
+            onClick={() => {
+              setMobileOpen(!mobileOpen);
+              trackEvent('Click', 'Toggle mobile navbar menu', String(!mobileOpen));
+            }}
+            aria-label="Toggle menu"
+          >
+            <span />
+            <span />
+            <span />
+          </button>
         </div>
       </nav>
 
