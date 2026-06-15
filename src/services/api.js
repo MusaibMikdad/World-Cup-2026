@@ -151,6 +151,16 @@ const fetchEspnMatches = async () => {
           });
       }
 
+      const apiHomeScore = parseInt(home?.score || 0, 10);
+      const apiAwayScore = parseInt(away?.score || 0, 10);
+
+      // Compute scores from scorers list to prevent UI sync lag
+      const homeComputed = scorers.filter(s => (s.isHome && s.type !== 'own_goal' && s.type !== 'penalty_saved') || (!s.isHome && s.type === 'own_goal')).length;
+      const awayComputed = scorers.filter(s => (!s.isHome && s.type !== 'own_goal' && s.type !== 'penalty_saved') || (s.isHome && s.type === 'own_goal')).length;
+
+      const homeScore = Math.max(apiHomeScore, homeComputed);
+      const awayScore = Math.max(apiAwayScore, awayComputed);
+
       return {
         homeTeam: { tla: home?.team?.abbreviation },
         awayTeam: { tla: away?.team?.abbreviation },
@@ -158,8 +168,8 @@ const fetchEspnMatches = async () => {
         minute: minute,
         score: {
           fullTime: { 
-            home: parseInt(home?.score || 0, 10), 
-            away: parseInt(away?.score || 0, 10) 
+            home: homeScore, 
+            away: awayScore 
           }
         },
         scorers: scorers

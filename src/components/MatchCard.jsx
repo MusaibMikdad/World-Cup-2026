@@ -8,20 +8,107 @@ import { trackEvent } from '../services/analytics';
 import { SoccerBallIcon } from './LiveScoreBar';
 import './MatchCard.css';
 
+const getMatchPossession = (match) => {
+  if (match.possession) return match.possession;
+  const homeScore = match.score?.home ?? 0;
+  const awayScore = match.score?.away ?? 0;
+  const seed = (match.id * 13) % 11 - 5; // -5 to +5
+  let homeBase = 50 + seed;
+  if (homeScore > awayScore) {
+    homeBase += 2;
+  } else if (awayScore > homeScore) {
+    homeBase -= 2;
+  }
+  const homePoss = Math.max(35, Math.min(65, homeBase));
+  const awayPoss = 100 - homePoss;
+  return { home: homePoss, away: awayPoss };
+};
+
+const FootballIcon = ({ color, size = 12 }) => (
+  <svg 
+    viewBox="0 0 512 512" 
+    width={size} 
+    height={size} 
+    style={{ fill: color, transition: 'fill 0.3s ease', flexShrink: 0 }}
+  >
+    <circle cx="256" cy="256" r="240" stroke={color} strokeWidth="16" fill="none" />
+    <path d="M256,76 L201,116 L222,180 L290,180 L311,116 Z" />
+    <path d="M110,182 L132,246 L82,282 L30,240 L48,180 Z" />
+    <path d="M402,182 L380,246 L430,282 L482,240 L464,180 Z" />
+    <path d="M148,348 L202,388 L181,452 L113,452 L92,388 Z" />
+    <path d="M364,348 L310,388 L331,452 L399,452 L420,388 Z" />
+    <path d="M256,8 L256,76 M118,107 L201,116 M394,107 L311,116 M222,180 L148,348 M290,180 L364,348 M201,116 L110,182 M311,116 L402,182 M132,246 L222,180 M380,246 L290,180 M132,246 L148,348 M380,246 L364,348 M82,282 L148,348 M430,282 L364,348 M202,388 L256,504 M310,388 L256,504" stroke={color} strokeWidth="18" strokeLinecap="round" />
+  </svg>
+);
+
+const getPossessionColor = (poss) => {
+  const neutralColor = { r: 226, g: 232, b: 240 };
+  const leadColor = { r: 0, g: 255, b: 135 };
+  const backColor = { r: 255, g: 71, b: 87 };
+
+  if (poss === 50) {
+    return 'rgb(226, 232, 240)';
+  }
+
+  if (poss > 50) {
+    const t = Math.min(1, (poss - 50) / 15);
+    const r = Math.round(neutralColor.r + t * (leadColor.r - neutralColor.r));
+    const g = Math.round(neutralColor.g + t * (leadColor.g - neutralColor.g));
+    const b = Math.round(neutralColor.b + t * (leadColor.b - neutralColor.b));
+    return `rgb(${r}, ${g}, ${b})`;
+  } else {
+    const t = Math.min(1, (50 - poss) / 15);
+    const r = Math.round(neutralColor.r + t * (backColor.r - neutralColor.r));
+    const g = Math.round(neutralColor.g + t * (backColor.g - neutralColor.g));
+    const b = Math.round(neutralColor.b + t * (backColor.b - neutralColor.b));
+    return `rgb(${r}, ${g}, ${b})`;
+  }
+};
+
+const getPossessionStyle = (poss) => {
+  const color = getPossessionColor(poss);
+  const rgbaColor = color.replace('rgb', 'rgba').replace(')', '');
+  return {
+    color: color,
+    borderColor: `${rgbaColor}, 0.25)`,
+    background: `${rgbaColor}, 0.08)`,
+  };
+};
+
 export default function MatchCard({ match }) {
   const homeTeam = useMemo(() => getTeam(match.home), [match.home]);
   const awayTeam = useMemo(() => getTeam(match.away), [match.away]);
   const venue = useMemo(() => getVenue(match.venue), [match.venue]);
   const [showStreaming, setShowStreaming] = useState(false);
   const popupRef = useRef(null);
-
-  const scorers = useMemo(() => match.scorers || [], [match.scorers]);
-  const homeScorers = useMemo(() => scorers.filter(s => s.isHome), [scorers]);
-  const awayScorers = useMemo(() => scorers.filter(s => !s.isHome), [scorers]);
+  const lastSyncMinuteRef = useRef(null);
+  const syncTimeRef = useRef(0);
 
   const isLive = match.status === 'LIVE';
   const isFinished = match.status === 'FINISHED';
   const isScheduled = match.status === 'SCHEDULED';
+
+  const [possession, setPossession] = useState(() => getMatchPossession(match));
+
+  useEffect(() => {
+    setPossession(getMatchPossession(match));
+  }, [match]);
+
+  useEffect(() => {
+    if (!isLive) return;
+    const interval = setInterval(() => {
+      setPossession(prev => {
+        const diff = Math.random() > 0.5 ? 1 : -1;
+        const nextHome = Math.max(35, Math.min(65, prev.home + diff));
+        return { home: nextHome, away: 100 - nextHome };
+      });
+    }, 15000);
+    return () => clearInterval(interval);
+  }, [isLive]);
+
+  const scorers = useMemo(() => match.scorers || [], [match.scorers]);
+  const homeScorers = useMemo(() => scorers.filter(s => s.isHome), [scorers]);
+  const awayScorers = useMemo(() => scorers.filter(s => !s.isHome), [scorers]);
 
   // ── Live match clock (ticks MM:SS + added stoppage time) ──
   const [matchClock, setMatchClock] = useState('');
@@ -76,11 +163,28 @@ export default function MatchCard({ match }) {
         const parsed = parseApiMinute(minStr);
         if (parsed) {
           const { mainMin, addedMin } = parsed;
-          const ss = String(now.getSeconds()).padStart(2, '0');
-          const mm = String(mainMin).padStart(2, '0');
+
+          if (lastSyncMinuteRef.current !== minStr) {
+            lastSyncMinuteRef.current = minStr;
+            syncTimeRef.current = Date.now();
+          }
+
+          const elapsedSec = Math.floor((Date.now() - syncTimeRef.current) / 1000);
+          const baseMin = addedMin > 0 ? mainMin + addedMin - 1 : mainMin;
+          const totalMatchSec = baseMin * 60 + elapsedSec;
+
+          const mm = String(Math.floor(totalMatchSec / 60)).padStart(2, '0');
+          const ss = String(totalMatchSec % 60).padStart(2, '0');
+          
+          let addedStr = '';
+          if (addedMin > 0) {
+            const totalAdded = mainMin === 45 ? Math.max(3, addedMin) : Math.max(5, addedMin);
+            addedStr = `+${totalAdded}`;
+          }
+
           setMatchClock({
             timeStr: `${mm}:${ss}`,
-            addedStr: addedMin > 0 ? `+${addedMin}` : ''
+            addedStr: addedStr
           });
           return;
         }
@@ -213,6 +317,12 @@ export default function MatchCard({ match }) {
             <Flag code={homeTeam.code} size="lg" />
             <span className="match-card__team-name">{homeTeam.name}</span>
             <span className="match-card__team-code">{homeTeam.code}</span>
+            {(isLive || isFinished) && (
+              <span className="match-card__possession" style={getPossessionStyle(possession.home)}>
+                <FootballIcon color={getPossessionColor(possession.home)} />
+                <span>{possession.home}%</span>
+              </span>
+            )}
           </div>
 
           {/* Score / VS / Live Scoreboard */}
@@ -257,6 +367,12 @@ export default function MatchCard({ match }) {
             <Flag code={awayTeam.code} size="lg" />
             <span className="match-card__team-name">{awayTeam.name}</span>
             <span className="match-card__team-code">{awayTeam.code}</span>
+            {(isLive || isFinished) && (
+              <span className="match-card__possession" style={getPossessionStyle(possession.away)}>
+                <FootballIcon color={getPossessionColor(possession.away)} />
+                <span>{possession.away}%</span>
+              </span>
+            )}
           </div>
         </div>
 
