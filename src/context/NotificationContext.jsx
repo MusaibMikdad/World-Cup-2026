@@ -68,7 +68,7 @@ export const NotificationProvider = ({ children }) => {
       if ('Notification' in window && Notification.permission === 'granted') {
         try {
           new Notification('Notifications Enabled!', {
-            body: "You'll be notified 5 minutes before every World Cup match kickoff.",
+            body: "You'll be notified 1 minute before every World Cup match kickoff.",
             icon: '/favicon.ico',
           });
         } catch (e) {
@@ -76,7 +76,7 @@ export const NotificationProvider = ({ children }) => {
         }
       }
       
-      triggerToast('Notifications Enabled!', "You'll receive a reminder 5 minutes before every match.");
+      triggerToast('Notifications Enabled!', "You'll receive a reminder 1 minute before every match.");
     } else {
       setGlobalEnabled(false);
       setNotifiedIds([]);
@@ -99,7 +99,7 @@ export const NotificationProvider = ({ children }) => {
       if (!matches || matches.length === 0) return;
 
       const now = new Date();
-      const FIVE_MINUTES_MS = 5 * 60 * 1000;
+      const ONE_MINUTE_MS = 1 * 60 * 1000;
 
       matches.forEach(match => {
         if (match.status !== 'SCHEDULED') return;
@@ -108,15 +108,15 @@ export const NotificationProvider = ({ children }) => {
         const matchTime = new Date(match.date);
         const diffMs = matchTime - now;
 
-        // Trigger notification if match is within 5 minutes
-        if (diffMs > 0 && diffMs <= FIVE_MINUTES_MS) {
+        // Trigger notification if match is within 1 minute
+        if (diffMs > 0 && diffMs <= ONE_MINUTE_MS) {
           const matchDescription = `${match.home} vs ${match.away}`;
 
           // 1. Trigger native notification
           if ('Notification' in window && Notification.permission === 'granted') {
             try {
               const notif = new Notification('Match Kickoff Soon!', {
-                body: `${matchDescription} starts in 5 minutes!`,
+                body: `${matchDescription} starts in 1 minute!`,
                 icon: '/favicon.ico',
                 requireInteraction: true,
               });
@@ -131,7 +131,7 @@ export const NotificationProvider = ({ children }) => {
 
           // 2. Trigger in-app toast
           triggerToast(
-            'Kickoff in 5 Minutes!',
+            'Kickoff in 1 Minute!',
             `${matchDescription} is starting soon. Get ready to watch live!`,
             match
           );
