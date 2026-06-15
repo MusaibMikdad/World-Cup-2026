@@ -155,8 +155,10 @@ const fetchEspnMatches = async () => {
       const apiAwayScore = parseInt(away?.score || 0, 10);
 
       // Compute scores from scorers list to prevent UI sync lag
-      const homeComputed = scorers.filter(s => (s.isHome && s.type !== 'own_goal' && s.type !== 'penalty_saved') || (!s.isHome && s.type === 'own_goal')).length;
-      const awayComputed = scorers.filter(s => (!s.isHome && s.type !== 'own_goal' && s.type !== 'penalty_saved') || (s.isHome && s.type === 'own_goal')).length;
+      // Since ESPN API associates the goal event with the team that benefits from it,
+      // we simply count any scoring play for the home team as a home goal, and any scoring play for the away team as an away goal.
+      const homeComputed = scorers.filter(s => s.isHome && s.type !== 'penalty_saved').length;
+      const awayComputed = scorers.filter(s => !s.isHome && s.type !== 'penalty_saved').length;
 
       const homeScore = Math.max(apiHomeScore, homeComputed);
       const awayScore = Math.max(apiAwayScore, awayComputed);
