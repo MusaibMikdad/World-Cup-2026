@@ -27,6 +27,7 @@ export const streamingPlatforms = [
   { name: 'SBS On Demand', url: 'https://www.sbs.com.au/ondemand', region: 'Asia & Oceania', country: '🇦🇺 Australia', free: true, note: 'Free for Australian viewers' },
   { name: 'Toffee', url: 'https://toffeelive.com', region: 'Asia & Oceania', country: '🇧🇩 Bangladesh', free: false, note: 'Paid subscription required' },
   { name: 'Bioscope', url: 'https://www.bioscopelive.com', region: 'Asia & Oceania', country: '🇧🇩 Bangladesh', free: false, note: 'Paid subscription required' },
+  { name: 'LIVEKHELA', url: 'https://hnbd.livekhelatv.com/', region: 'Asia & Oceania', country: '🇧🇩 Bangladesh', free: true, note: 'Free live streaming server' },
   { name: 'KickBD', url: 'https://kickbd.org/', region: 'Asia & Oceania', country: '🇧🇩 Bangladesh', free: true, note: 'Free live match streaming website' },
   { name: 'T6 SPORTS', url: 'https://www.t6sports.cc/watch-live/1', region: 'Asia & Oceania', country: '🇧🇩 Bangladesh', free: true, note: 'Free live streaming server' },
   { name: 'CCTV Sports', url: 'https://sports.cctv.com', region: 'Asia & Oceania', country: '🇨🇳 China', free: true, note: 'Free-to-air' },
