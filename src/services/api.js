@@ -50,7 +50,7 @@ const saveAssistsCache = (cache) => {
 const fetchEspnMatches = async () => {
   try {
     // Fetch all tournament matches to ensure we get historical/finished scores
-    const response = await fetch('https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard?dates=20260611-20260719');
+    const response = await fetch('https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard?dates=20260611-20260719&limit=150');
     if (!response.ok) return { matches: [] };
     const data = await response.json();
     
