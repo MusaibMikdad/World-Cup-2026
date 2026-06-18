@@ -79,10 +79,16 @@ export function useMatches() {
                     ? 'FINISHED'
                     : match.status;
 
+              const isRealTeamCode = (code) => typeof code === 'string' && /^[A-Z]{3}$/.test(code) && code !== 'TBD';
+              const nextHome = apiMatch.homeTeam?.tla;
+              const nextAway = apiMatch.awayTeam?.tla;
+
               return {
                 ...match,
                 status: apiStatus,
                 minute: apiMatch.minute || null,
+                home: isRealTeamCode(nextHome) ? nextHome : match.home,
+                away: isRealTeamCode(nextAway) ? nextAway : match.away,
                 score: {
                   home:
                     apiMatch.score?.fullTime?.home ??
