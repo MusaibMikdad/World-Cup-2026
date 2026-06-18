@@ -60,7 +60,7 @@ const groupMatches = [
   { id: 28, date: '2026-06-19T07:00:00+06:00', home: 'MEX', away: 'KOR', group: 'A', venue: 'akron', matchday: 2, score: { home: null, away: null }, status: 'SCHEDULED', displayTime: '07:00' },
 
   // June 19 (BST June 20)
-  { id: 29, date: '2026-06-20T07:00:00+06:00', home: 'BRA', away: 'HAI', group: 'C', venue: 'lincoln', matchday: 2, score: { home: null, away: null }, status: 'SCHEDULED', displayTime: '07:00' },
+  { id: 29, date: '2026-06-30T07:00:00+06:00', home: 'BRA', away: 'HAI', group: 'C', venue: 'lincoln', matchday: 2, score: { home: null, away: null }, status: 'SCHEDULED', displayTime: '07:00' },
   { id: 30, date: '2026-06-20T04:00:00+06:00', home: 'SCO', away: 'MAR', group: 'C', venue: 'gillette', matchday: 2, score: { home: null, away: null }, status: 'SCHEDULED', displayTime: '04:00' },
   { id: 31, date: '2026-06-20T10:00:00+06:00', home: 'TUR', away: 'PAR', group: 'D', venue: 'levis', matchday: 2, score: { home: null, away: null }, status: 'SCHEDULED', displayTime: '10:00' },
   { id: 32, date: '2026-06-20T01:00:00+06:00', home: 'USA', away: 'AUS', group: 'D', venue: 'lumen', matchday: 2, score: { home: null, away: null }, status: 'SCHEDULED', displayTime: '01:00' },
