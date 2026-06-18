@@ -316,7 +316,9 @@ export default function MatchCard({ match }) {
           <div className="match-card__team match-card__team--home">
             <Flag code={homeTeam.code} size="lg" />
             <span className="match-card__team-name">{homeTeam.name}</span>
-            <span className="match-card__team-code">{homeTeam.code}</span>
+            {/^[A-Z]{3}$/.test(homeTeam.code) && homeTeam.code !== 'TBD' && (
+              <span className="match-card__team-code">{homeTeam.code}</span>
+            )}
             {isLive && (
               <span className="match-card__possession" style={getPossessionStyle(possession.home)}>
                 <FootballIcon color={getPossessionColor(possession.home)} />
@@ -366,7 +368,9 @@ export default function MatchCard({ match }) {
           <div className="match-card__team match-card__team--away">
             <Flag code={awayTeam.code} size="lg" />
             <span className="match-card__team-name">{awayTeam.name}</span>
-            <span className="match-card__team-code">{awayTeam.code}</span>
+            {/^[A-Z]{3}$/.test(awayTeam.code) && awayTeam.code !== 'TBD' && (
+              <span className="match-card__team-code">{awayTeam.code}</span>
+            )}
             {isLive && (
               <span className="match-card__possession" style={getPossessionStyle(possession.away)}>
                 <FootballIcon color={getPossessionColor(possession.away)} />

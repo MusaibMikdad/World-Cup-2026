@@ -66,10 +66,22 @@ export function useMatches() {
         setMatches(prev =>
           prev.map(match => {
             const apiMatch = apiData.matches.find(
-              am =>
-                am.id === match.id ||
-                (am.homeTeam?.tla === match.home &&
-                  am.awayTeam?.tla === match.away)
+              am => {
+                // 1. Try exact team codes match (or reversed)
+                const teamsMatch = (am.homeTeam?.tla === match.home && am.awayTeam?.tla === match.away) ||
+                                   (am.homeTeam?.tla === match.away && am.awayTeam?.tla === match.home);
+                if (teamsMatch) return true;
+                
+                // 2. If it's a knockout match, match by date/time (since they have unique kickoff times)
+                const isKnockout = match.id >= 73;
+                if (isKnockout && am.date && match.date) {
+                  const matchTime = new Date(match.date).getTime();
+                  const amTime = new Date(am.date).getTime();
+                  return matchTime === amTime;
+                }
+                
+                return false;
+              }
             );
             if (apiMatch) {
               const apiStatus =

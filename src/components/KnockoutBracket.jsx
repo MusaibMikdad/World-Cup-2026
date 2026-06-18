@@ -23,7 +23,9 @@ function BracketSlot({ match }) {
       <div className={`ko-slot__team ${isFinished && hasScore && match.score.home > match.score.away ? 'ko-slot__team--winner' : ''}`}>
         {homeTeam ? <Flag code={homeTeam.code} size="sm" /> : <span className="ko-slot__flag">🏳️</span>}
         <span className="ko-slot__name">{homeTeam ? homeTeam.name : 'TBD'}</span>
-        {homeTeam && <span className="ko-slot__code">{homeTeam.code}</span>}
+        {homeTeam && /^[A-Z]{3}$/.test(homeTeam.code) && homeTeam.code !== 'TBD' && (
+          <span className="ko-slot__code">{homeTeam.code}</span>
+        )}
         {hasScore && (
           <span className={`ko-slot__score ${isLive ? 'ko-slot__score--live' : ''}`}>
             {match.score.home}
@@ -34,7 +36,9 @@ function BracketSlot({ match }) {
       <div className={`ko-slot__team ${isFinished && hasScore && match.score.away > match.score.home ? 'ko-slot__team--winner' : ''}`}>
         {awayTeam ? <Flag code={awayTeam.code} size="sm" /> : <span className="ko-slot__flag">🏳️</span>}
         <span className="ko-slot__name">{awayTeam ? awayTeam.name : 'TBD'}</span>
-        {awayTeam && <span className="ko-slot__code">{awayTeam.code}</span>}
+        {awayTeam && /^[A-Z]{3}$/.test(awayTeam.code) && awayTeam.code !== 'TBD' && (
+          <span className="ko-slot__code">{awayTeam.code}</span>
+        )}
         {hasScore && (
           <span className={`ko-slot__score ${isLive ? 'ko-slot__score--live' : ''}`}>
             {match.score.away}

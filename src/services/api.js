@@ -214,6 +214,7 @@ const fetchEspnMatches = async () => {
       const awayScore = Math.max(apiAwayScore, awayComputed);
 
       return {
+        date: event.date,
         homeTeam: { tla: home?.team?.abbreviation },
         awayTeam: { tla: away?.team?.abbreviation },
         status: status,
